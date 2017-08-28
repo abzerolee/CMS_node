@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="./css/normalize.css">
   <link rel="stylesheet" href="./css/public.css">
+  <link rel="stylesheet" href="./css/index.css">
   <title>创翊软科首页</title>
 </head>
 <body>
@@ -109,6 +110,13 @@
         </div>
       </div>
     </div>
+
+    <div class="canvas">
+      <canvas id="particleLine" width="1170" height="500px"></canvas>
+      <!-- <h2 class="canvas-tit">
+        <strong>以技术为核心</strong><br>专业的服务团队
+      </h2> -->
+    </div>
   </div>
   <!-- footer -->
   <div class="foot">
@@ -151,5 +159,121 @@
           </div>
     </div>
   </div>
+  <script>
+    var RAF = (function() {
+      return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(callback) {
+              window.setTimeout(callback, 1000 / 60);
+          };
+    })();
+
+    ;(function() {
+      var canvas = document.getElementById('particleLine');
+      var ctx = canvas.getContext('2d');
+
+      var polygon = {x: canvas.width/2, y: canvas.height/2, num: 6, r: 200} // 多边形
+      var xA = rand(-0.2, 0.2), yA = rand(-0.2, +0.2); // 速率
+      var titles = ['一条龙服务', '品质服务', '24小时服务', '技术服务'];
+      
+      var particle = titles.map(function(item, i) {
+        return getRelativeXY(polygon.x, polygon.y, 300, Math.PI/2*i+Math.PI/4);
+      });
+
+      // 悬浮
+      drawRAF();
+      function drawRAF() {
+        ctx.clearRect(0,0,1170,500);
+        
+        particle.forEach(function(item, i) {
+          ctx.fillText(i, item.x, item.y);
+        });
+
+        polygon.x += xA;
+        polygon.y += yA;// 浮动范围10px的园
+        xA *= polygon.x >= (canvas.width/2+20) || polygon.x <= (canvas.width/2-20) ? -1 : 1;
+        yA *= polygon.y >= (canvas.height/2+20) || polygon.y <= (canvas.height/2-20) ? -1 : 1;
+        drawPolygon(polygon);
+        RAF(drawRAF);
+      }
+
+      // 绘制多边形
+      function drawPolygon(opt) {
+        var x = opt && opt.x || 0;
+        var y = opt && opt.y || 0;
+        var num = opt && opt.num || 3;
+        var r = opt && opt.r || 2;
+        var angle = 2*Math.PI/num; // 圆心角
+
+        var startX = x + r * Math.cos(0 - Math.PI/5);
+        var startY = y - r * Math.sin(0 - Math.PI/5);
+        var points = []; // 多边形顶点坐标
+
+        ctx.beginPath();
+
+        ctx.strokeStyle = '#DDD';
+        ctx.lineWidth = 1.5;
+        ctx.moveTo(startX, startY); // 默认起始点从右方开始 偏移36度
+
+        // 多边形顶点轨迹
+        for(var i = 1; i <= num; i++) {
+          var newXY = getRelativeXY(x, y, r, angle*i + Math.PI/5);
+          points.push(newXY);
+          ctx.lineTo(newXY.x, newXY.y);
+        }
+
+        if(points.length > 3) {
+          // 对角线
+          points.forEach(function(item, j) {
+            ctx.moveTo(x,y);
+            ctx.lineTo(item.x, item.y);
+            if(j >= points.length - 2) j = j - points.length;
+            ctx.lineTo(points[j+2].x, points[j+2].y); // 依次隔一个顶点连线
+          });
+        }
+        ctx.closePath();
+        ctx.stroke();
+
+        // 描点
+        points.forEach(function(item) {
+          ctx.beginPath();
+          ctx.arc(item.x, item.y, 8, 0, Math.PI*2);
+          ctx.fillStyle = '#DDD';
+          ctx.fill();
+        })
+
+        fillTit('以技术为核心', x, y, {textAlign: 'center',color: '#f0ad4e'});
+        fillTit('专业的服务团队', x, y+30, {font: '26',textAlign: 'center', color: '#f0ad4e'});
+      }
+
+      function fillTit(title, x, y, style) {
+        ctx.beginPath()
+        var font = style && style.font || '30',
+            color = style && style.color || '#666',
+            textAlign = style && style.textAlign || 'start';
+      
+        ctx.font = font + 'px serif';
+        ctx.textAlign = textAlign;
+        ctx.fillStyle = color;
+        ctx.fillText(title, x, y);
+        ctx.closePath();
+      }
+    })()
+
+    function rand(min, max){   
+      return(min + (Math.random() * (max-min)));   
+    }
+    function getRelativeXY(x, y, dis, angle) { // angle为逆时针
+      return {
+        x: x + dis*Math.cos(angle),
+        y: y + dis*Math.sin(angle),
+      }
+    }
+    function getDistance(a, b){
+      var dis = Math.sqrt(
+        Math.pow((a.x - b.x), 2) + Math.pow((a.y - b.y), 2)
+      )
+      return Math.abs(dis);
+    };
+  </script>
 </body>
+
 </html>
