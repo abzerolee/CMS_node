@@ -1,0 +1,40 @@
+<div class="foot">
+  <div class="foot-wrap">
+      <div class="foot-link">
+          <ul class="ui-list">
+            <span class="ui-list-tit">关于创翊</span>
+            <li class="ui-list-item"><a href="">公司简介</a></li>
+            <li class="ui-list-item"><a href="">企业文化</a></li>
+            <li class="ui-list-item"><a href="">公司理念</a></li>
+            <li class="ui-list-item"><a href="">团队介绍</a></li>
+          </ul>
+          <ul class="ui-list">
+            <span class="ui-list-tit">技术与服务</span>
+            <li class="ui-list-item"><a href="">软件定制开发</a></li>
+            <li class="ui-list-item"><a href="">服务外包（BPO/ITO）</a></li>
+            <li class="ui-list-item"><a href="">手机APP开发</a></li>
+            <li class="ui-list-item"><a href="">WEB开发</a></li>
+            <li class="ui-list-item"><a href="">网站定制开发</a></li>
+            <li class="ui-list-item"><a href="">数据库开发</a></li>
+          </ul>
+          <ul class="ui-list">
+            <span class="ui-list-tit">服务支持</span>
+            <li class="ui-list-item"><a href="">软件定制开发</a></li>
+            <li class="ui-list-item"><a href="">服务外包（BPO/ITO）</a></li>
+            <li class="ui-list-item"><a href="">手机APP开发</a></li>
+            <li class="ui-list-item"><a href="">WEB开发</a></li>
+            <li class="ui-list-item"><a href="">网站定制开发</a></li>
+            <li class="ui-list-item"><a href="">数据库开发</a></li>
+          </ul>
+        </div>
+        <div class="foot-map">
+          <p><i class="icbg-phone"></i>136-7727-2321</p>
+          <div class="photomap">
+            <img src="./images/map.jpg" alt="">
+          </div>
+        </div>
+        <div class="foot-copy">
+          <p>津ICP备10122345号 copyright 2015-2017 创翊软科 ALL RIGHTS</p>
+        </div>
+  </div>
+</div>

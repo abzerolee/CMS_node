@@ -1,0 +1,34 @@
+// scafford
+@import "scaffording.less";
+
+.customers {
+  .panel-body {
+    padding: 0;
+    text-indent: 0;
+    .clearfix();
+  }
+  .customers-item {
+    width: (@min-width - 40) / 3;
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 15px;
+    &:nth-child(3n) {
+      margin-right: 0;
+    }
+    dt {
+      width: 100%;
+      &>img {
+        .img-inherit();
+      }
+    }
+    dd > h4{
+      font-size: 1.5em;
+      color: @brand-success;
+      margin-top: 8px;
+    }
+    dd > p {
+      font-size: 1.1em;
+      color: @gray-light;
+    }
+  }
+}

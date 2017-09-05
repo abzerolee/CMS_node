@@ -1,0 +1,12 @@
+{
+  "name": "chuangyiruanke_website",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www.js"
+  },
+  "dependencies": {
+    "express": "^4.15.4",
+    "swig-templates": "^2.0.2"
+  }
+}

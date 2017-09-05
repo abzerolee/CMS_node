@@ -1,0 +1,75 @@
+@import "scaffording.less";
+// mobile
+.mobile{
+  height: 600px;
+  background-color: lighten(@gray-base,94%);
+  position: relative;
+  z-index: -1;
+  & > img{
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    z-index: -2;
+  }
+  .container{
+    height: 100%;
+    padding: 100px 0px;
+    & img{
+      width: 400px;
+      float: left;
+      margin-left:150px;
+    }
+    .mobile-text{
+      width: 300px;
+      color: lighten(@gray-base,60%);
+      padding-top: 50px;
+      float: left;
+      margin-left: 100px;
+      & h4{
+        font-size: 1.4em;
+        margin-bottom: 20px;
+      }
+      & li{
+        list-style-type: disc;
+        font-size: @font-size-base;
+        margin-bottom: 5px;
+      }
+    }
+  }
+}
+// website
+.web{
+  .img-bg('../images/product-blue.png');
+  .container{
+    .mobile-text{
+      margin-left: 200px;
+    }
+    h4,li{
+      color: @body-bg;    
+    }
+    img{
+      width: 500px;
+      margin-left: 50px;
+    }
+  }
+}
+// work
+.work{
+  height: 600px;
+  color: @body-bg;
+  .img-bg('../images/product-work.png');
+  & h4{
+    margin-top: 100px;
+    text-align: center;
+    font-size: 1.4em;
+    margin-bottom: 20px;
+  }
+  & p{
+    width: 600px;
+    text-align: center;
+    margin: 0 auto;
+    line-height: 30px;
+  }
+
+}

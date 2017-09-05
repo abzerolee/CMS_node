@@ -1,0 +1,67 @@
+{%extends './layout.swig'%}
+
+{%block title%}创翊软科--联系我们{%endblock%}
+
+{%block head%}
+<link rel="stylesheet" href="/css/contact.css">
+{%endblock%}
+
+{%block banner%}
+<div class="banner ui-swipe">
+  <div class="ui-swiper-slide">
+    <img src="/images/contact-banner.png" alt="">
+  </div>
+</div>
+{%endblock%}
+
+{%block container%}
+<div class="container-wrap">
+  <div class="container">
+    <div class="hope">
+      <h4>我们的愿景：最受客户信任的互联网企业</h4>
+      <p>天津创翊软科科技有限公司将以诚实守信的操守、共同发展的理念，长远的眼光建立公司的品牌。从创造用户价值、社会价值开始，从而提升企业的自身价值，与公司相关利益 共同体取得和谐发展，以受到员工...</p>
+      <!-- <button>给我们留言</button> -->
+    </div>
+  </div>
+  <div class="contact-wrap">
+    <div class="container">
+      <div class="address-wrap">
+        <img src="./images/contact-background.png" alt="">
+        <div class="address">
+          <img class="icbg-address" src="./images/icon10.png" alt="">
+          <h4>公司地址<span>天津市南开区南开大学励学路玑瑛智谷</span></h4>
+          <div class="address-box">
+            <img src="./images/address-top.png" alt="">
+            <p>ADDRESS</p>
+            <img src="./images/address-bottom.png" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="address-wrap">
+        <img src="./images/contact-background.png" alt="">
+        <div class="address">
+          <img class="icbg-address" src="./images/icon9.png" alt="">
+          <h4>联系方式<span>联系电话 | 400-668-3065</span><span>传真 | 010-57265275</span><span>Email | service@yitianxinda.com</span></h4>
+          <div class="address-box">
+            <img src="./images/contact-top.png" alt="">
+            <p class="contact-text">CONTACT</p>
+            <img src="./images/contact-bottom.png" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="address-wrap">
+        <img src="./images/contact-background.png" alt="">
+        <div class="address">
+          <img class="icbg-address" src="./images/icon11.png" alt="">
+          <h4>邮箱<span>非工作时间请给我们留言我们将会尽快给予您回复或咨询建议</span></h4>
+          <div class="address-box">
+            <img src="./images/mailbox-top.png" alt="">
+            <p class="mailbox-text">MAINBOX</p>
+            <img src="./images/mailbox-bottom.png" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{%endblock%}

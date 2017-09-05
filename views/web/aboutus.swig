@@ -1,0 +1,90 @@
+{% extends './layout.swig' %}
+
+{% block title %} 创翊软科--关于我们 {% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="/css/aboutus.css">
+{% endblock %}
+
+{% block banner %}
+<div class="banner ui-swipe">
+  <div class="ui-swiper-slide">
+    <img src="/images/about-banner.png" alt="">
+  </div>
+</div>
+{% endblock %}
+
+{%block container%}
+<div class="container-wrap">
+  <div class="container">
+  <!-- synopsis -->
+    <div class="ui-list">
+      <h4 class="ui-list-item">创翊简介</h4>
+      <div class="synopsis-text">
+        <img src="./images/about-top.png" alt="">
+        <p>创翊软科专业从事应用软件开发、web开发、APP开发、计算机信息系统集成及信息技术服务为主要业务。开发人员则拥有平均3年的软件系统开发经验，其中技术人员占公司总人数的80%，主要开发语言涉及C#、java、PHP、Object-C等。创翊软科以创造价值，追求卓越为宗旨。 为客户、员工、公司和社会创造价值；打造卓越团队， 推行卓越管理，提供卓越服务，应用卓越技术，创造 卓越业绩，建设卓越文化。</p>
+        <img src="./images/about-bottom.png" alt="">
+      </div>
+      <div class="picture-wrap">
+        <dl>
+          <dt><img src="./images/about-product.png" alt=""></dt>
+          <dd>超强的技术能力<span>开发人员则拥有平均3年的软件系统开发经验，其中技术人员占公司总人数的80%，主要开发语言涉及C#、java、PHP、Object-C等。</span></dd>
+        </dl>
+        <dl>
+          <dt><img src="./images/about-analysis.png" alt=""></dt>
+          <dd>精准的需求分析<span>千里之行始于足下，需求分析是建立互联网营销的第一步，其决定了未来产品上线后的竞争力与成败。精准的把握客户深层次的需求。</span></dd>
+        </dl>
+        <dl>
+          <dt><img src="./images/about-culture.png" alt=""></dt>
+          <dd>优秀的企业文化<span>为客户、员工、公司和社会创造价值；打造卓越团队， 推行卓越管理，提供卓越服务，应用卓越技术，创造 卓越业绩，建设卓越文化。</span></dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <!-- circuit -->    
+  <div class="circuit-wrap">
+    <img src="./images/about-circle.png" alt="">
+    <div class="container">
+      <h4>严格的项目监管流程<span>多元人才结构团队，高效沟通，精准项目规划</span></h4>
+      <div class="circuit">
+        <dl>
+          <dt><img src="./images/icon-analysis.png" alt=""></dt>
+          <dd>1/需求沟通<span>了解客户需求</span></dd>
+        </dl>
+        <dl>
+          <dt><img src="./images/icon-idea.png" alt=""></dt>
+          <dd>2/策划咨询<span>提供优质创意</span></dd>
+        </dl>
+        <dl>
+          <dt><img src="./images/icon-contract.png" alt=""></dt>
+          <dd>3/合同签订<span>保障双方权益</span></dd>
+        </dl>
+        <dl>
+          <dt><img src="./images/icon-design.png" alt=""></dt>
+          <dd>4/设计开发<span>运用开发语言</span></dd>
+        </dl>
+        <dl>
+          <dt><img src="./images/icon-maintain.png" alt=""></dt>
+          <dd>5/运营维护<span>修改调整，规范完整</span></dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <!-- idea -->
+  <div class="idea-wrap">
+    <div class="container">
+      <h4>创翊理念</h4>
+      <div class="idea">
+        <ul>
+          <li>强大的技术支持团队</li>
+          <li>专业的文案策划人员</li>
+          <li>超强的网站运维能力</li>
+          <li>完善的售后服务体系</li>
+        </ul>
+        <p>从创业之初我们就坚信企业的竞争归根到底是人才的竞争，所以创翊从引人，用人，育人到留人都制定了长远的企业人才观。网景技术实施团队囊括了ASP、PHP、ASP.net、Java语言，完全推广了DIV+CSS样式，程序，系统和功能的完全可定制开发。并拥有直邮系统，网站资源管理系统，协同办公系统，网络商城系统等多项国家专利软件著作权，面对互联网的破坏式创新与发展，人才与技术是我司取胜的决定因素。</p>
+      </div>
+    </div>
+  </div>
+</div>
+{%endblock%}
+

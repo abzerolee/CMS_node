@@ -1,0 +1,102 @@
+@import "scaffording.less";
+// banner
+.banner{
+  min-height: 460px;
+}
+// hope
+.container-wrap{
+  background-color: #f3f8fb;
+  .container{
+    height: auto;
+    padding-bottom: 60px;
+    .hope{
+      .size(@min-width;200px);
+      .box-shadow(0px 0px 11px @gray);
+      background-color: @body-bg;
+      padding-top: 30px;
+      position: relative;
+      margin-top: 50px;
+      & h4{
+        font-size: 1.4em;
+        margin:0px 0px 20px 30px;
+      }
+      & p{
+        .center-block();        
+        font-size: 1.1em;
+        width: @min-width - 60px;
+        line-height: 25px;
+      }
+      & button{
+        .ui-btn(@gray-light; @size: 13px);
+        margin: 0 auto;
+        display: block;
+        position:absolute;
+        bottom: 30px;
+        right: 30px;
+      }
+    }
+  }
+  .contact-wrap{
+    .size(100%;500px);
+    background-color: lighten(@gray-base,94%);
+    .address-wrap{
+      .size(380px;440px);
+      position: relative;
+      float: left;
+      margin: 0px 5px;
+      & >img{
+        width: 380px;
+      }
+      .address{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        padding-left: 70px;
+        & >img{
+          margin:38px 0px 30px 54px; 
+        }
+        & h4{
+          font-size: 1.1em;
+          text-align: center;
+          display: block;
+          .size(240px;110px);
+          & span{
+            font-size: @font-size-base;
+            .center-block();
+            font-weight: normal;
+            margin-top: 10px;
+          }
+        }
+        .address-box{
+          width: 150px;
+          height: 50px;
+          .center-block();
+          text-align: center;
+          margin-top: 30px;
+          position: relative;
+          & img:nth-of-type(1){
+            position: absolute;
+            top: 0px;
+            left: 0px;
+          }
+          & img:nth-of-type(2){
+            position: absolute;
+            bottom: 0px;
+            right: 0px;
+          }
+          & p{
+            font-size: @font-size-base;
+            color: @brand-warning;
+            line-height: 50px;
+          }
+          .contact-text{
+            color: @brand-success;
+          }
+          .mailbox-text{
+            color: @brand-info;
+          }
+        }
+      }
+    }
+  }
+}

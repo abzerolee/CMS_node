@@ -1,0 +1,52 @@
+@import "scaffording.less";
+
+@width: 400px/2;
+@height: 310px/2;
+// banner
+.banner-wrap{
+  min-height: 400px;
+}
+// software
+.software{
+  height:@width+100;
+  & img{
+    .size(@width;@height);
+    float: left;
+    margin-top: 50px;
+    margin-left: @width;
+  }
+  .software-text{
+    width: 300px;
+    float: left;
+    margin-top: 5px;
+    margin-left: @width;
+    & h4{
+      color: @brand-success;
+      font-size: 1.4em;
+    }
+    & p{
+      margin-top: 20px;
+      font-size: @font-size-base;
+      color: lighten(@gray-base,60%);
+      line-height: 25px;
+    }
+    & button{
+      .ui-btn(@gray-light; @size: 13px);
+      margin: 0 auto;
+      display: block;
+      background-color: transparent;
+      float: right;
+      margin-top: 20px;
+    }
+  }
+}
+// app
+.app{
+  background-color: lighten(@gray-base,94%);
+  .software-text{
+    text-align: right;
+    & button{
+    float: left;
+    }
+  }
+}
