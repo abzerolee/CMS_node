@@ -1,0 +1,50 @@
+{% extends './public/layout.html' %}
+
+{% block title %} {{title}} {% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="/css/service.css">
+{% endblock %}
+
+{% block banner %}
+<div class="banner ui-swipe">
+  {% for item in advers["1"].sImg %}
+  <div class="ui-swiper-slide">
+    <a href="http://{{item.link}}" target="{{advers["1"].target}}">
+      <img src="{{item.img}}" alt="{{item.link}}">
+    </a>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
+
+{%block container%}
+<div class="container-wrap">
+  <!--software -->
+  {% for i,item in section %}
+    {% if i%2 !== 0 %}
+    <div class="software">
+      <div class="container">
+        <div class="software-text">
+          <h4>{{item.title}}</h4>
+          <p>{{item.description}}</p>
+          <button>READ MORE++</button>        
+        </div>
+        <img src="{{item.image}}" alt="{{item.title}}" title="{{i}}">
+      </div>
+    </div>
+    {% else %}
+    <div class="software app">
+        <div class="container">
+          <img src="{{item.image}}" alt="{{item.title}}" title="{{i}}">
+          <div class="software-text">
+            <h4>{{item.title}}</h4>
+            <p>{{item.description}}</p>
+            <a href="{{item.link}}"><button>READ MORE++</button></a>        
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+{%endblock%}

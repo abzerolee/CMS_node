@@ -30,7 +30,4 @@ node_modules
 # Ignore .DS_Store files on OS X
 .DS_Store
 
-/psd*
-/首页-切图
-test.html
-test1.html
+/.vscode

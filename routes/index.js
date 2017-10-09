@@ -1,51 +1,21 @@
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
+const middleware = require('./middleware');
 
-let nav = [{
-    text: '首页',
-    href: '/', 
-  },{
-    text: '技术与服务',
-    href: '/service',
-  },{
-    text: '产品中心',
-    href: '/products',
-    active: false,
-  },{
-    text: '联系我们',
-    href: '/contact',
-  },{
-    text: '新闻中心',
-    href: '/news',
-  },{
-    text: '客户案例',
-    href: '/clients'
-  },{
-    text: '关于我们',
-    href: '/aboutus',
-  }];
+const manger = require('./manger/home');
+const home = require('./web/home');
+const category = require('./web/category');
+const detail = require('./web/detail');
 
-router.get('/', htmlRender);
+middleware.initData();
 
-router.get('/service', htmlRender);
+router.use(middleware.initLocals);
+router.use(middleware.initErrorHandlers);
 
-router.get('/products', htmlRender);
+router.get('/', home);
+router.get('/web', home);
+router.get('/web/:category', category); // mutil or single
+router.get('/web/:category/:subitem', detail);  // mutil detail
 
-router.get('/contact', htmlRender);
+router.get('/manger', manger);
 
-router.get('/clients', htmlRender);
-
-router.get('/news', htmlRender);
-
-router.get('/aboutus', htmlRender);
-
-function htmlRender(req, res) {
-  let routes = req.path;
-  nav.forEach((item, i) => {
-    item.active = item.href === routes ? true : false;
-  });
-
-  res.render('web'+ routes, {nav: nav});
-}
-
-module.exports = router
+module.exports = router;

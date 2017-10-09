@@ -1,0 +1,100 @@
+{% extends './public/layout.html' %}
+
+{% block title %} {{title}} {% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="/css/index.css">
+{% endblock %}
+
+{% block banner %}
+<div class="banner ui-swipe">
+  <div class="ui-swiper-slide">
+    <img src="images/banner.png" alt="">
+  </div>
+</div>
+{% endblock %}
+
+{% block container %}
+<!-- container -->
+<div class="container-wrap">
+  <div class="container">
+    <!-- abou us -->
+    <div class="panel aboutUs">
+      <h3 class="panel-head">
+        创翊软科 <small>/ ABOUT US</small>
+      </h3>
+      <div class="panel-body">
+          <p>创翊软科专业从事系统、网站设计及开发、微信公众平台、APP、手机网站开发、数据维护、软件技术咨询等业务。
+              目前已经具备4人的宣传营销团队和4人的正式技术团队。其中宣传人员具有丰富的商赛和创业经验，掌握一定市场
+              资源；开发人员则拥有平均3年的软件系统开发经验，对C#、JAVA及APP开发、UI设计技术掌握扎实。项目初期主
+              要针对创业团队提供服务，后续将业务对象逐渐拓展至社会中小型企业。</p>
+          <button class="btn">更多 +</button>
+      </div>
+    </div>
+    <!-- service -->
+    <div class="panel service">
+      <h3 class="panel-head">
+        技术与服务 <small>/ TECHNICAL AND SERVICE</small>
+      </h3>
+      <div class="panel-body">
+        
+      </div>
+    </div>
+    <!-- products -->
+    <div class="panel products">
+      <h3 class="panel-head">
+        客户案例 <small>/ PRODUCTS</small>
+      </h3>
+      <div class="panel-body">
+        <div class="products-list">
+          <a href="">
+            <dl class="case">
+              <dd><img src="./images/picture1.png" alt=""></dd>
+              <dt class="variation"><p>政府事业单位协同办公解决方案</p></dt>
+            </dl>
+          </a>
+          <a href="">
+            <dl class="case">
+              <dd><img src="./images/picture2.png" alt=""></dd>
+              <dt class="variation"><p>生产制造行业协同应用解决方案</p></dt>
+            </dl>
+          </a>
+          <a href="">
+            <dl class="case">
+              <dd><img src="./images/picture3.png" alt=""></dd>
+              <dt class="variation"><p>医疗行业解决方案</p></dt>
+            </dl>
+          </a>
+          <a href="">
+            <dl class="case">
+              <dd><img src="./images/picture4.png" alt=""></dd>
+              <dt class="variation"><p>交通运输行业解决方案</p></dt>
+            </dl>
+          </a>
+          <a href="">
+            <dl class="case">
+              <dd><img src="./images/picture5.png" alt=""></dd>
+              <dt class="variation"><p>连锁流通行业解决方案</p></dt>
+            </dl>
+          </a>
+          <a href="">
+            <dl class="case">
+              <dd><img src="./images/picture6.png" alt=""></dd>
+              <dt class="variation"><p>建筑房地产行业协同运营管理方案</p></dt>
+            </dl>
+          </a>
+        </div>
+        <button class="btn">更多 +</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="canvas">
+    <canvas id="particleLine" width="1170" height="500px"></canvas>
+    <!-- <h2 class="canvas-tit">
+      <strong>以技术为核心</strong><br>专业的服务团队
+    </h2> -->
+  </div>
+</div>
+<script type="text/javascript" src="/plugins/suspend.js"></script>
+{% endblock %}
