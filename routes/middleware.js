@@ -13,9 +13,6 @@ let cache = new Cache();
 // });
 // 定义本地缓存 方便路由处理
 
-// 缓存categories表
-
-
 // 初始化数据库
 exports.initData = function() {
 	// do some test
