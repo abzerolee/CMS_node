@@ -1,5 +1,6 @@
 const Categories = require('../models/Categories');
 const Advertsing = require('../models/Advertsing');
+const Details = require('../models/Details');
 
 const Cache = require('memory-cache').Cache;
 
@@ -16,7 +17,6 @@ let cache = new Cache();
 // 初始化数据库
 exports.initData = function() {
 	// do some test
-	
 }
 
 // 初始化标准的视图locals。

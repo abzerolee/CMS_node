@@ -4,7 +4,7 @@ const Fragments = require('../../models/Fragments');
 const nim = require('nimble');
 
 function findAdverts(params, data, cb) {
-  Advertsing.find({applied: params}, function(err, docs) {
+  Advertsing.find({applied: {$in: [params, 'public']}}, function(err, docs) {
     if(err) throw err;
     docs.forEach(function(v) {
       data.advers[v.adverId] = v;
@@ -14,7 +14,7 @@ function findAdverts(params, data, cb) {
 }
 
 function findFrag(params, data, cb) {
-  Fragments.find({applied: params}, function(err, frags) {
+  Fragments.find({applied: {$in: [params, 'public']}}, function(err, frags) {
     if(err) throw err;
     frags.forEach(function(v) {
       data.frags[v.fragId] = v;
@@ -34,20 +34,23 @@ function findCategory(category, data, cb) {
   })
 }
 
-module.exports = function(req, res) {
+module.exports = function(req, res, next) {
   let params = req.params.category;
   let cache = res.locals.cache;
-  let locals = res.locals;
   let nav = cache.keys();
   let data = {}, SINGLE = 0, MUTI = 1;
 
   // 是否存在请求路由
   if(nav.indexOf(params) === -1) {
-    res.notFound();
+    res.notfound();
     return;
   }
 
   let category = cache.get(params);
+  if(!category) {
+    res.notfound();
+    return;
+  }
   data.title = category.title;
   data.advers = {};
   data.frags = {};
