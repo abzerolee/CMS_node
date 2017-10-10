@@ -13,8 +13,8 @@ router.use(middleware.initErrorHandlers);
 
 router.get('/', home);
 router.get('/web', home);
-router.get('/web/:category', category); // mutil or single
-router.get('/web/:category/:subitem', detail);  // mutil detail
+router.get('/web/:category', category);
+router.get('/web/:category/:subitem', detail);
 
 router.get('/manger', manger);
 

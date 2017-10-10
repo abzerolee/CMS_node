@@ -1,0 +1,69 @@
+{% extends './public/layout.html' %}
+
+{% block title %} {{title}} {% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="/css/technology-content.css">
+{% endblock %}
+
+{% block banner %} 
+<div class="banner ui-swipe banner-wrap">
+  {% if advers['2'] && advers['2'].sImg %}
+  {% for item in advers['2'].sImg %}
+  <div class="ui-swiper-slide">
+    <a href="{{item.link}}"><img src="{{item.img}}" alt="{{advers['2'].alt}}"></a>
+  </div>
+  {% endfor %}
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block container %}
+<div class="container-wrap">
+  <!-- subnav -->
+  <div class="subnav" id="bignav">
+    <ul class="ui-nav">
+      {% for item in subnav %}
+      {% if item.active %}
+      <li class="ui-nav-item active"><a href="{{item.link}}">{{item.keywords}}</a></li>
+      {% else %}
+      <li class="ui-nav-item"><a href="{{item.link}}">{{item.keywords}}</a></li>
+      {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+  <!-- content -->
+  <div class="container">
+    <p>{{section.title}}<span>{{section.stitle}}</span></p>
+    {% autoescape false -%}
+    {{section.content}}
+    {%- endautoescape %}
+    <!-- <dl>
+      <dt><img src="/images/mobile.png" alt=""></dt>
+      <dd>
+        <p class="profile">创翊软科的开发员工将采用先进的信息技术来开发出高效和可靠的定制化软件。我们将按照您的商业和行业要求提供量身定制服务。通过采用高效的开发流程和最新技术，我们将提供最佳性价比的解决方案。我们将在设计完成全部软件产品开发要求的基础上满足项目时间等要求。</p>
+        <h4>具有卓越的软件开发优势：<span>基于创翊软件的开发经验，您不仅可以节省外包软件开发费用而且能够实现业绩增长由于创翊具有：有经验和良好组织的团队、多种复杂和应用广泛项目经验的借鉴、完善的软件开发步骤、低成本的软件开发服务以及全面的软件开发配套服务。我们的软件开发人员能够处理各类涉及知识产权、系统平台兼容及保密等要求；编码管理和文档管理，系统开发及防火墙设置等要求。</span></h4>
+        <h4>具主要开发软件类型：<p>B/S 软件 （Brower/Server）</p><span>B/S软件，即Browser/Server(浏览器/服务器)结构的软件，是随着Internet技术的兴起，对C/S结构的一种变化或者改进的结构。在这种结构下的软件，用户界面完全通过WWW浏览器实现，一部分事务逻辑在前端实现但是主要事务逻辑在服务器端实现，形成所谓3-tier结构。B/S软件，主要是利用了不断成熟的WWW浏览器技术，结合浏览器的多种Script语言(VBScript、JavaScript…)和ActiveX技术，用通用浏览器就实现了原来需要复杂专用软件才能实现的强大功能，并节约了开发成本，是一种全新的软件系统构造技术。 </span></h4>
+        <h4>创翊特色：
+          <p>★ 按需所求、量身定制</p><span>告诉我们您想要的软件，我们为您研发制作。只需提供新建系统的结构需求、功能需求，配合开发人员了解企业原有的业务流程，并讨论设计新业务流程。软件就能与企业当前的办公和业务系统无缝结合。创翊软件甚至可以组织项目实施领导小组，以确保新系统应用的成功。</span>
+          <p>★ 操作简易、运用自如</p><span>创翊研发的每一款软件都会保证全面的智能化和自动化。将繁琐的操作程序，优化到最简易，让操作者可以在短期内熟练掌握；可开发远程操作功能，通过手机、互联网等远程操作，达到全智能、随心应用。</span>
+          <p>★ 售服完善、跟踪排障</p><span>创翊软件售后服务极其完备，在程序编制结束后进行软件测试。交付使用时，对企业相关人员进行操作培训并提供软件正常运行后进行的常规维护和功能扩充开发。实行24小时跟踪服务，及时为您排除操作疑惑。</span>
+        </h4>
+      </dd>
+    </dl> -->
+  </div>
+</div>
+<script type="text/javascript">
+  window.onscroll=function(){
+    var topScroll =document.body.scrollTop;
+    var bignav  = document.getElementById("bignav");
+    if(topScroll > 390){ 
+      bignav.style.position = 'fixed';
+      bignav.style.top = '0';
+      bignav.style.opacity = '1';
+    }else{
+        bignav.removeAttribute('style');
+    }
+  }
+</script>
+{% endblock %}
