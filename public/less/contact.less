@@ -99,4 +99,79 @@
       }
     }
   }
+  .message-wrap{
+    .size(100%;500px);
+    position: relative;
+    background: url(../images/contact-picture.png) no-repeat center;
+    .message{
+      width: @min-width;
+      .center-block();
+      padding-top: 30px;
+      h4{
+        color: @body-bg;
+        font-size: 1.6em;
+        text-align: center;
+        span{
+          display: block;
+          font-weight: normal;
+          color: lighten(@gray-base,50%);
+          font-size: @font-size-base;
+          margin-top: 10px;
+        }
+      }
+      input{
+        outline: none;
+        background-color: transparent;
+        border: none;
+        border-bottom: 1px solid lighten(@gray-base,50%);
+        color: @body-bg;
+        .size(@min-width/5;30px);
+        margin:30px 27px; 
+        &:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+          color:@body-bg;  
+        }
+        &::-moz-placeholder { /* Mozilla Firefox 19+ */
+            color:@body-bg;
+        }
+        &:-ms-input-placeholder{
+            color:@body-bg;
+        }
+        &::-webkit-input-placeholder{
+            color:@body-bg;
+        }
+      }
+      textarea{
+        .size(@min-width - 60;200px);
+        margin: 0px 24px;
+        background-color: transparent;
+        border: none;
+        border-bottom: 1px solid lighten(@gray-base,50%);
+        outline: none;
+        color: @body-bg;
+        resize: none;
+        line-height: 25px;
+        &:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+          color:@body-bg;  
+        }
+        &::-moz-placeholder { /* Mozilla Firefox 19+ */
+            color:@body-bg;
+        }
+        &:-ms-input-placeholder{
+            color:@body-bg;
+        }
+        &::-webkit-input-placeholder{
+            color:@body-bg;
+        }
+      }
+      button{
+        .ui-btn(@color:@body-bg;@bg:transparent;@border:@body-bg;@size: 13px);
+        margin: 0 auto;
+        display: block;
+        position:absolute;
+        bottom: 30px;
+        right: 30px;
+        outline: none;
+      }  
+    }
+  }
 }
