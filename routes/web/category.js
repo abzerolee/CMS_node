@@ -67,7 +67,7 @@ module.exports = function(req, res, next) {
       findCategory(category, data, cb);
     }
   ], function() {
-    res.render(params, data, function(err, html){
+    res.render('web/'+params, data, function(err, html){
       if(err) return console.error(err);
       res.send(html);
     });

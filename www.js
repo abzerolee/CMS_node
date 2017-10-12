@@ -17,7 +17,7 @@ const db = mongoose.connect(settings.URL, {useMongoClient: true}, function(err) 
 
 // 模板引擎配置
 app.engine('html', swig.renderFile);
-app.set('views', path.join(__dirname, 'views/web'));
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 
 // 后台日志配置

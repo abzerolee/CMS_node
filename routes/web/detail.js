@@ -73,7 +73,7 @@ module.exports = function(req, res) {
       findSubitem(cate, data, cb);
     }
   ], function() {
-    res.render(category+'_detail', data, function(err, html){
+    res.render('web/'+ category +'_detail', data, function(err, html){
       if(err) throw new Error(err.message);
       res.send(html);
     });
