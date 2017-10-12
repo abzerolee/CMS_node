@@ -1,6 +1,22 @@
-@import "scaffording.less";
-.container-wrap{
-  height: 600px;
-  background: url(../images/server-error.png) no-repeat;
-  background-size: 100%;
+@import 'scaffording.less';
+.server-error{
+  .size(100%;100%);
+  position: relative;
+  img{
+    width: 100%;
+  }
+  a{
+    display: inline-block;
+    .size(250px;50px);
+    background-color: #ff9100;
+    text-align: center;
+    line-height: 50px;
+    position: absolute;
+    top: 60%;
+    left: 15%;
+    margin-left: 5px;
+    border-radius: 10px;
+    color: @body-bg;
+    font-size: 1.4em;
+  }
 }

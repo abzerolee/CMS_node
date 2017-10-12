@@ -1,0 +1,26 @@
+@import 'scaffording.less';
+.page{
+  .size(100%;100%);
+  position: relative;
+  img{
+    width: 100%;
+  }
+  .page-button{
+    .size(auto;auto);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -200px;
+    margin-top: 150px;
+    a{
+      display: inline-block;
+      text-align: center;
+      line-height: 30px;
+      .size(150px;30px);
+      color: @body-bg;
+      background-color: @brand-warning;
+      outline: none;
+      margin:0px 20px; 
+    }
+  }
+}
