@@ -20,13 +20,20 @@ router.get('/web/:category', category);
 router.get('/web/:category/:subitem', detail);
 
 router.get('/manger', manger);
-
 router.get('/manger/categories', function(req, res, next) {
   res.render('manger/categories');
 });
 router.get('/manger/details', function(req, res, next) {
-  res.end('hello world');
+  res.render('manger/details');
 });
-
+router.get('/manger/website', function(req, res, next) {
+  res.render('manger/website')
+});
+router.get('/manger/advertising', function(req, res, next) {
+  res.render('manger/advertising');
+})
+router.get('/manger/fragments', function(req, res, next) {
+  res.render('manger/fragments');
+});
 
 module.exports = router;

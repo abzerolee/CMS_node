@@ -17,6 +17,7 @@ function extract(obj, keys) {
   });
   return tmp;
 }
+// 添加parent 名字
 
 router.post(path_cate +'addCategory', function(req, res) {
   let param = req.body;
@@ -48,7 +49,7 @@ router.post(path_cate +'updateCategory', function(req, res) {
 
 router.get(path_cate +'getCategory', function(req, res) {
   let query = {
-    condi: extract(req.body, ['name', '_id', 'pid', 'parent']),
+    condi: extract(req.body, ['name', 'parent']),
     obt: {
       sort: req.query.sort || -1
     } 
