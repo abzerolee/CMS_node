@@ -7,6 +7,17 @@ const Fragments = require('../models/Fragments');
 // 分类管理
 let path_cate = '/api/categories/';
 
+// 提取指定参数
+function extract(obj, keys) {
+  let tmp = {}; // 对obj遍历 以防obj为空
+  _.each(obj, function(val, key) {
+    if(keys.indexOf(keys) === -1) {
+      tmp[key] = val;
+    }
+  });
+  return tmp;
+}
+
 router.post(path_cate +'addCategory', function(req, res) {
   let param = req.body;
   let type = param.type;
@@ -37,17 +48,22 @@ router.post(path_cate +'updateCategory', function(req, res) {
 
 router.get(path_cate +'getCategory', function(req, res) {
   let query = {
-    condi: {},
+    condi: extract(req.body, ['name', '_id', 'pid', 'parent']),
     obt: {
       sort: req.query.sort || -1
     } 
   };
-
   Categories.getCategory(query, res, function(docs) {
-    res.json({code: 0, info: docs});
+    let cache = {};
+    _.each(docs, function(v) {
+      cache[v._id] = v.name;
+    });
+    docs = _.map(docs, function(v) {
+      v._doc.parent = v.pid ? cache[v.pid] : null ;
+      return v;
+    });
+    res.json({code: 10, info: docs});
   });
 });
-
-
 
 module.exports = router;

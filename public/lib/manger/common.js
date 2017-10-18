@@ -1,12 +1,12 @@
 // 配置dataTable
 if ($.fn.dataTable) {
   $.extend($.fn.dataTable.defaults, {
-      searching: false,
-      ordering: false,
-      lengthMenu: [5, 10, 20, 30, 40, 50],
-      pageLength: 10,
-      processing: true,
-      serverSide: true,
+    searching: false,
+    ordering: false,
+    lengthMenu: [5, 10, 20, 30, 40, 50],
+    pageLength: 10,
+    processing: true,
+    serverSide: true,
   });
   $.fn.dataTable.ext.errMode = 'throw';
 }
@@ -66,5 +66,32 @@ function getColumns(columns, defaults, cbs) {
       tmp.render = cbs[String(i)];
     }
     return tmp;
+  });
+}
+/**
+ * 请求方法
+ * @param {String} url 
+ * @param {String} type 
+ * @param {Object} data 
+ * @param {function} successFn 
+ */
+function oajax(url, type, data, successFn) {
+  $.ajax({
+    "url": '/api/'+ url,
+    "crossDomain": true,
+    "data": data,
+    "dataType": 'json',
+    "timeout": 30000,
+    "method": type
+  }).done(function (result) {
+    if (result.code == 10) {
+        successFn.call(this, result)
+    } else if (result.code == 11) {
+        layer.alert('操作失败!'+ result.info);
+    } else if (result.code == 12) {
+        layer.alert("您无权执行此操作！");
+    } else if (result.code == 99) {
+        layer.alert(result.message);
+    }
   });
 }

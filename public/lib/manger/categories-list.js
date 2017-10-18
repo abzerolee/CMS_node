@@ -11,7 +11,7 @@ $(function() {
     datas: function(d) {
       return {};
     },
-    columns: ['', 'name', 'pid', 'keywords', 'title', 'path', 'order', '_id'],
+    columns: ['', 'name', 'parent', 'keywords', 'title', 'path', 'order', '_id'],
     defaults: {
       '0': '<input type="checkbox" class="check">',
       '2': '----'
