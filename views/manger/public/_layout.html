@@ -4,14 +4,34 @@
   {% include './_meta.html' %}
 </head>
 <body>
-    {% include './_header.html' %}
-    
-    {% include './_menu.html' %}
+  {% include './_header.html' %}
+  
+  {% include './_menu.html' %}
 
-    {% block section %}
-    
-    {% endblock %}
+  <section class="Hui-article-box">
+    <nav class="breadcrumb">
+      <i class="Hui-iconfont"></i> <a href="/manger" class="maincolor">首页</a> 
+      {% block pageing %}{% endblock %}
+      <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a>
+    </nav>
+    <div class="Hui-article">
+      <article class="cl pd-20">
+        {% block section %}{% endblock %}        
+      </article>
+      <footer class="footer">
+        <p>
+          感谢jQuery、layer、laypage、Validform、UEditor、My97DatePicker、iconfont、Datatables、WebUploaded、icheck、highcharts、bootstrap-Switch<br> 
+          Copyright &copy;2017 创翊软科CMS后台管理系统 All Rights Reserved.<br> 
+          本后台系统由<a href="http://www.h-ui.net/" target="_blank" title="H-ui前端框架">创翊软科</a>提供技术支持
+        </p>
+      </footer>
+    </div>
+  </section>
+  
+  {% include './_footer.html' %}
 
-    {% include './_footer.html' %}
+  {% block scripts %}
+  
+  {% endblock %}
 </body>
 </html>
