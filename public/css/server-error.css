@@ -6,17 +6,31 @@
 .server-error img {
   width: 100%;
 }
-.server-error a {
+.server-error > p {
+  position: absolute;
+  top: 15%;
+  right: 11%;
+  font-size: 14px;
+  color: #ff9100;
+  width: 220px;
+  height: 80px;
+  word-wrap: break-word;
+}
+.server-error .error-input {
+  width: 600px;
+  height: 150px;
+  position: absolute;
+  top: 70%;
+  left: 5%;
+}
+.server-error .error-input a {
   display: inline-block;
   width: 250px;
   height: 50px;
   background-color: #ff9100;
   text-align: center;
   line-height: 50px;
-  position: absolute;
-  top: 60%;
-  left: 15%;
-  margin-left: 5px;
+  margin-right: 40px;
   border-radius: 10px;
   color: #fff;
   font-size: 1.4em;

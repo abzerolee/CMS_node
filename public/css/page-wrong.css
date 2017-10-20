@@ -6,6 +6,16 @@
 .page img {
   width: 100%;
 }
+.page p {
+  position: absolute;
+  top: 75%;
+  left: 36%;
+  font-size: 14px;
+  color: #000;
+  width: 220px;
+  height: 80px;
+  word-wrap: break-word;
+}
 .page .page-button {
   width: auto;
   height: auto;
@@ -13,7 +23,7 @@
   top: 50%;
   left: 50%;
   margin-left: -200px;
-  margin-top: 150px;
+  margin-top: 200px;
 }
 .page .page-button a {
   display: inline-block;

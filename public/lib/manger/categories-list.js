@@ -10,6 +10,8 @@ $(function() {
     type: 'get',
     datas: function(d) {
       return {};
+      return {
+      };
     },
     columns: ['', 'name', 'parent', 'keywords', 'title', 'path', 'order', '_id'],
     defaults: {

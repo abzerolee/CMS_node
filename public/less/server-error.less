@@ -5,18 +5,30 @@
   img{
     width: 100%;
   }
-  a{
-    display: inline-block;
-    .size(250px;50px);
-    background-color: #ff9100;
-    text-align: center;
-    line-height: 50px;
+  &>p{
     position: absolute;
-    top: 60%;
-    left: 15%;
-    margin-left: 5px;
-    border-radius: 10px;
-    color: @body-bg;
-    font-size: 1.4em;
+    top: 15%;
+    right: 11%;
+    font-size: @font-size-base;
+    color:#ff9100;
+    .size(220px;80px);
+    word-wrap: break-word;
+  }
+  .error-input{
+    .size(600px;150px);
+    position: absolute;
+    top: 70%;
+    left: 5%;
+    a{
+      display: inline-block;
+      .size(250px;50px);
+      background-color: #ff9100;
+      text-align: center;
+      line-height: 50px;
+      margin-right: 40px;
+      border-radius: 10px;
+      color: @body-bg;
+      font-size: 1.4em;
+    }
   }
 }
