@@ -31,4 +31,4 @@ node_modules
 .DS_Store
 
 /.vscode
-/public/uploads
+public/uploads/
