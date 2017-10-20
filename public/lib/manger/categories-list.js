@@ -2,6 +2,7 @@ let table;
 
 function bindEvent() {
   
+  
 }
 
 $(function() {
