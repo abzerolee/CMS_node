@@ -20,19 +20,26 @@ const funs = [createRootPath, createChildrenPath];
 
 CategoriesSchema.statics = {
   createPath: function(type, fields, res, cb) {
-    Categories.find(fields.name, {_id: 1, name: 1}, function(err, doc) {
-      if(err) res.err(err, err.message);
-      if(docs.length !== 0) {
+    let self = this;
+    Categories.find({name: fields.name}, {_id: 1, name: 1}, function(err, doc) {
+      if(err) {
+        res.json({code: 11, info: err.message})
+        return;
+      }
+      if(doc.length !== 0) {
         cb.call(null, false, 'name repeats');
         return;
       }
-      funs[type-1].call(null, fields, res, cb);
+      funs[type-1].call(self, fields, res, cb);
     });    
   },
   getCategory: function(query, res, cb) {
-    Categories.find(query.condi, {createdAt: 0, updatedAt: 0, __v: 0}, {sort: [{'order': query.obt.sort}]},
+    Categories.find(query.condi, {createdAt: 0, updatedAt: 0, __v: 0}, {sort: [{'order': query.opt.sort}]},
       function(err, cates){
-        if(err) res.err(err, err.message);
+        if(err) {
+          res.json({code: 11, info: err.message});
+          return;
+        }
         cb.call(null, cates);
       });
   }
@@ -45,7 +52,10 @@ function createRootPath(fields, res, cb) {
   fields.path = '/web/' + fields.name;
   let category_root = new Categories(fields);
   category_root.save(function(err, doc) {
-    if(err) res.err(err, err.message);
+    if(err){
+      res.json({code: 11, info: err.message});
+      return;
+    } 
     cb.call(null, true);
   })
 }
@@ -54,13 +64,16 @@ function createRootPath(fields, res, cb) {
 function createChildrenPath(fields, res, cb) {
   this.find({'_id': fields.pid}, 'path', function(err, doc) {
     if(err) {
-      cb.call(null, false, 'no such pid');
+      res.json({code: 11, info: err.message});
       return;
     }
     fields.path = doc[0].path +'/'+ fields.name;
     let category_child = new Categories(fields);
     category_child.save(function(err, doc) {
-      if(err) res.err(err, err.message);
+      if(err) {
+        res.json({code: 11, info: err.message});
+        return;
+      } 
       cb.call(null, true);
     })
   });

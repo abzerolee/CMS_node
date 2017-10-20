@@ -22,7 +22,9 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 
 
-app.use(require('body-parser').urlencoded({extended:true}))
+app.use(require('body-parser').urlencoded({extended: true}));
+app.use(require('multer')({dest: 'public/uploads/'}).array('file', 6));
+
 // 后台日志配置
 app.use(morgan('short', {stream: process.stdout}));
 
@@ -40,12 +42,13 @@ app.use(api);
 app.use(function(req, res, next) {
   let err = new Error('NOT FOUND');
   err.status = 404;
+  err.message = err.message;
   next(err);
 });
 
 app.use(function(err, req, res, next) {
   let status = err.status || 500;
-  res.status(status).render('errors/'+ status);
+  res.status(status).render('errors/'+ status, {errorMsg: err.message});
 });
 
 // 启动服务

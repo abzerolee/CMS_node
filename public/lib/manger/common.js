@@ -10,6 +10,41 @@ if ($.fn.dataTable) {
   });
   $.fn.dataTable.ext.errMode = 'throw';
 }
+// 查询，重新载入 DataTables
+$('#search').on('click', (e) => {
+  e.preventDefault();
+  table.ajax.reload();
+});
+
+// 清空
+$('#clear').on('click', function(e) {
+  e.preventDefault();
+  $(this).parent().find(':input').val('');
+  table.ajax.reload();
+});
+
+//绑定选中所有的事件
+$("table").on('change', 'input.select-all', (e) => {
+  e.preventDefault();
+  const re = $(e.currentTarget).prop("checked")
+  if (re) {
+      $("tr:not(:first)").addClass('selector')
+  } else {
+      $("tr:not(:first)").removeClass('selector')
+  }
+  $(".check").prop("checked", re);
+})
+
+$('table').on('change', 'input.check', (e) => {
+  e.preventDefault();
+  const re = $(e.currentTarget).prop("checked");
+  if (re) {
+      $(e.currentTarget).closest('tr').addClass('selector')
+  } else {
+      $(e.currentTarget).closest('tr').removeClass('selector')
+  }
+})
+
 /**
  * 初始化表格 
  * @param opt Objects
@@ -22,7 +57,7 @@ function initTable(opt) {
 
   let columns = getColumns(opt.columns, opt.defaults, opt.callbacks)
 
-  return $('#dataTable').dataTable({
+  return $('#dataTable').DataTable({
     autowidth: false,
     serverSide: true,
     columns: columns,
@@ -77,7 +112,7 @@ function getColumns(columns, defaults, cbs) {
  */
 function oajax(url, type, data, successFn) {
   $.ajax({
-    "url": '/api/'+ url,
+    "url": '/api'+ url,
     "crossDomain": true,
     "data": data,
     "dataType": 'json',
@@ -87,11 +122,124 @@ function oajax(url, type, data, successFn) {
     if (result.code == 10) {
         successFn.call(this, result)
     } else if (result.code == 11) {
-        layer.alert('操作失败!'+ result.info);
+        layer.alert('操作失败 ：）'+ result.info);
     } else if (result.code == 12) {
         layer.alert("您无权执行此操作！");
     } else if (result.code == 99) {
         layer.alert(result.message);
     }
   });
+}
+
+// 弹出层 弹窗
+const pop = {
+  window: function(title, url, successFn, endFn) {
+    layer.open({
+      type: 2,
+      title: title || '创翊软科CMS后台管理系统',
+      area: ['1000px', '600px'],
+      maxmin: true,
+      shade: 0,
+      anim: 1,
+      content: url,
+      success: function(layero, index) {
+        $(layero[0]).find('ifram').attr('src', $(layero[0]).find('ifram').src+1);
+        if(typeof successFn === 'function') {
+          successFn.call(null);
+        }
+      },
+      end: function(){
+        if(typeof endFn === 'function') {
+          endFn.call(null);
+        }
+      }
+    });
+  },
+  close: function() {
+    const layerindex = parent.layer.getFrameIndex(window.name);
+    parent.layer.close(layerindex);
+  },
+}
+// 字数限制
+function limitLength(obj, length) {
+  var desc = obj.value;
+  obj.value = (function substr(str, length) {
+    var l = 0, i = 0;
+    while (l < length && i < str.length) {
+        l += 1;
+        if (str.substring(i, i + 1).match(/[\u4e00-\u9fa5]/)) l += 2; //一个中文是相当于3个英文   
+        i += 1;
+    }
+    return str.substring(0, i);
+  })(obj.value, length);
+}
+
+// 截取query参数
+function getQueryString(name) {
+  var reg = new RegExp(name + "=([^&]*)(&|$)", "i");
+  var r = window.location.href.match(reg);
+  if (r != null) return decodeURIComponent(r[1]);
+  return null;
+}
+
+// 获取form表单值
+function getFormValue(form, booleanToNum) {
+  var data = {};
+  var selectors = ['input[type=text]', 'input[type="hidden"]', 'input[type="password"]', 'textarea', 'input[type=radio]:checked', 'input[type=checkbox]', 'select'];
+  $.each(selectors, function(i, selector) {
+    $(form).find(selector).each(function() {
+      if(selector === 'select' && this.name) {
+        var values = [];
+        $(this).find('option:selected').each(function (index, item) {
+            values.push(item.value);
+        });
+        data[this.name] = values.join(",");
+        return;
+      }
+      if(selector === 'input[type=checkbox]') {
+        if (booleanToNum) {
+            data[this.name] = booleanToNum[this.checked];
+        } else {
+            data[this.name] = this.checked;
+        }
+        return;
+      }
+      if(this.name) data[this.name] = this.value;
+    })
+  });
+  return data;
+}
+
+// 设置form Value
+function setFormValue(form, value, numToBoolean) {
+  var selectors = ['input[type=text]', 'input[type="hidden"]', 'input[type="password"]', 'textarea', 'input[type=radio]', 'input[type=checkbox]', 'select'];
+  $.each(selectors, function(i, selector) {
+    $(form).find(selector).each(function() {
+      if(selector === 'select' && this.name) {
+        let self = this;
+        $(self).find('option').each(function() {
+          value[self.name] == this.value ? $(this).attr('selected', true) : $(this).removeAttr('selected');
+        });
+        return;
+      }
+      if(selector === 'input[type=checkbox]' && this.name) {
+        if(numToBoolean){
+          this.checked = numToBoolean[value[this.name]];
+        }else {
+          this.checked = value[this.name];
+        }
+        return;
+      }
+      
+      if(this.name) this.value = value[this.name] || '';
+      if(value[this.name] === 0) this.value = 0;
+    })
+  });
+}
+
+// 页面加载图片
+function initIMG(path) {
+  var $list = $('#thelist');
+  var $img = $('<div class="file-item thumbnail"><img width="110" height="110" src="'+ path +'" /></div>');
+  $list.html($img)
 }

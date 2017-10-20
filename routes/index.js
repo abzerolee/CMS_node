@@ -20,20 +20,22 @@ router.get('/web/:category', category);
 router.get('/web/:category/:subitem', detail);
 
 router.get('/manger', manger);
-router.get('/manger/categories', function(req, res, next) {
+router.get('/manger/categories', function(req, res) {
   res.render('manger/categories');
 });
-router.get('/manger/details', function(req, res, next) {
+router.get('/manger/details', function(req, res) {
   res.render('manger/details');
 });
-router.get('/manger/website', function(req, res, next) {
+router.get('/manger/website', function(req, res) {
   res.render('manger/website')
 });
-router.get('/manger/advertising', function(req, res, next) {
+router.get('/manger/advertising', function(req, res) {
   res.render('manger/advertising');
 })
-router.get('/manger/fragments', function(req, res, next) {
+router.get('/manger/fragments', function(req, res) {
   res.render('manger/fragments');
 });
-
+router.get('/manger/categories_add', function(res, res) {
+  res.render('manger/categories_add');
+})
 module.exports = router;
