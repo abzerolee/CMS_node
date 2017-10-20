@@ -9,7 +9,6 @@ $(function() {
     url: '/api/categories/getCategory',
     type: 'get',
     datas: function(d) {
-      return {};
       return {
       };
     },
