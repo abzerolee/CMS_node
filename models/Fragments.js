@@ -24,14 +24,6 @@ FragmentSchema.pre('save', function(next) {
     })
 });
 
-FragmentSchema.statics.new = function(fields, cb) {
-  let fragment = new Fragments(fields);
-  fragment.save(function(err, doc) {
-    if(err) throw new Error(err.message);
-    (typeof cb === 'function') && cb.call(null, doc);
-  });
-}
-
 const Fragments = mongoose.model('Fragments', FragmentSchema);
 
 module.exports = Fragments;

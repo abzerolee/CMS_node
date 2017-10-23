@@ -3,7 +3,7 @@ var table;
 function bindEvent() {
   $('#showAddPage').on('click', function(e) {
     e.preventDefault();
-    pop.window('分类管理--添加路由', '/manger/categories_add?index=');
+    pop.window('分类管理--添加路由', '/manger/categories_add');
   });
 
   $('table').on('click', 'a.option_edit',function(e) {
@@ -13,15 +13,11 @@ function bindEvent() {
     pop.window('分类管理--修改路由', '/manger/categories_add?categoryName='+data.name+'&id='+data._id);
   });
   
-<<<<<<< HEAD
-  
-=======
   $('table').on('click', 'a.option_delet', function(e) {
     e.preventDefault();
     let selector = $(e.currentTarget).closest('tr');
     let data = table.row(selector).data();   
     layer.confirm('您确定删除该路由吗？', function(layero, index) {
-      console.log(layero, index)
       delCategory([data._id]);
     });
   });
@@ -47,7 +43,6 @@ function delCategory(ids) {
     layer.msg('删除成功',)
     table.ajax.reload()
   });
->>>>>>> de2e15ec010ccde22efb6c87fda99c3504f811e0
 }
 
 $(function() {
@@ -56,11 +51,8 @@ $(function() {
     type: 'get',
     datas: function(d) {
       return {
-<<<<<<< HEAD
-=======
         name: $('#categoryName').val(),
         parent: $('#categoryPName').val(),
->>>>>>> de2e15ec010ccde22efb6c87fda99c3504f811e0
       };
     },
     columns: ['', 'name', 'parent', 'keywords', 'title', 'path', 'order', '_id'],
@@ -81,8 +73,9 @@ $(function() {
     }
   });
 
+<<<<<<< HEAD
   bindEvent();
-
-
-  
+=======
+  bindEvent();  
+>>>>>>> f07886d24900542297b0e677575d804f133da570
 })
