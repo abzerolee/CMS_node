@@ -52,3 +52,39 @@ let advers = {
   },
 }
 
+let article = {
+  '/article/getArticles': {
+    title: String, // 标题
+    tags: String,  // 文章标签
+    keywords: String, // 关键字
+    state: Boolean, // 文章状态
+    author: String,  // 作者
+    original: Boolean // 是否原创
+  },
+  '/article/delArticle': {
+    ids: Array, // _id数组
+  },
+  '/article/updateArticle': {
+    id: String, // 更新的文章_id
+    title: String, 
+    stitle: String, // 副标题
+    categoryId: String, // 分类_id 
+    tags: String, 
+    keywords: String,
+    img: String, // 图片标题
+    description: String, // 简介 过滤html
+    author: String, // 作者 
+    state: Boolean, // 文章状态 true 发布 false 待审
+    original: Boolean, // 是否为原创 
+    source: String, // 原创连接 , 
+    content: String, // 内容 富文本, 
+    comments: String // 注释
+  },
+  '/article/addArticle': {
+    // 与更新类似 没有id
+  },
+  '/article/updateState': {
+    ids: Array, // 更新状态 _id 数组
+    state: Boolean, // 状态
+  },
+}

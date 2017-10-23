@@ -220,8 +220,67 @@ router.post(path_adver +'updateState', function(req, res) {
   })
 });
 
-let path_article = '/api/article';
+let path_article = '/api/article/';
 
+router.get(path_article +'getArticles', function(req, res) {
+  let query = extract(req.query, ['title', 'tags', 'keywords', 'state', 'author', 'original']);
+  Details.find(query, function(err, articles) {
+    if(err) {
+      res.json({code: 11, info: err.message});
+      return;
+    }
+    res.json({code: 10, info: articles});
+  });
+});
 
+router.post(path_article +'delArticle', function(req, res) {
+  let ids = req.body.ids;
+  Details.remove({_id: {$in: ids}}, function(err, doc) {
+    if(err) {
+      res.json({code: 11, info: err.message});
+      return;
+    }
+    res.json({code: 10, info: []});
+  });
+});
+
+router.post(path_article +'updateArticle', function(req, res) {
+  let id = req.body.id;
+  let fields = extract(req.body, ['title', 'stitle', 'categoryId', 'tags', 'keywords', 'img', 'description', 'author', 'state', 'original', 'source', 'content', 'comments']);
+
+  Details.findByIdAndUpdate(id, fields, function(err, doc) {
+    if(err) {
+      res.json({code: 11, info: err.message});
+      return;
+    }
+    res.json({code: 10, info: []});
+  });
+});
+
+router.post(path_article +'addArticle', function(req, res) {
+  let fields = extract(req.body, ['title', 'stitle', 'categoryId', 'tags', 'keywords', 'img', 'description', 'author', 'state', 'original', 'source', 'content', 'comments']);
+
+  let article = new Details(fields);
+  article.save(function(err, doc) {
+    if(err) {
+      res.json({code: 11, info: err.message});
+      return;
+    }
+    res.json({code: 10, info: []});
+  });
+})
+
+router.post(path_article +'updateState', function(req, res) {
+  let ids = req.body.ids;
+  state = req.body.state;
+
+  Details.findByIdAndUpdate({_id: {$in: ids}}, {state: state}, function(err, doc) {
+    if(err) {
+      res.json({code: 11, info: err.message});
+      return;
+    }
+    res.json({code: 10, info: []});
+  })
+});
 
 module.exports = router;
