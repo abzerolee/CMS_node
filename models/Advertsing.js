@@ -7,12 +7,10 @@ let indexId = new IndexIds({_id: 'adverId'});
 const AdvertisingSchema = new Schema({
 
   name:  String,
-  type: {type: Number, default: 0}, // 展示形式 0文字 1图片 2友情链接
+  type: {type: Number, default: 0}, // 展示形式 0 单个 1 多个
   state: {type: Boolean, default: true}, // 是否展示
   title: String,
   link: String,
-  width: Number,
-  height: Number,
   target: {type : String, default : '_blank'},
   sImg: Schema.Types.Mixed,
   alt: String,
