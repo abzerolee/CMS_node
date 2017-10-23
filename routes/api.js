@@ -91,5 +91,55 @@ router.get(path_cate +'getCategory', function(req, res) {
 });
 
 
-// 
+// 获取所有碎片 删除碎片 修改碎片 添加碎片
+let path_frags = '/api/frags';
+
+router.get(path_frags +'/getFrags', function(req, res) {
+  let tmp = extract(req.query, ['applied', 'type', 'name']);
+
+  let query = {condi: tmp, opt: {sort: -1}};
+  Fragments.find(query.condi, query.opt, function(err, frags) {
+    if(err) {
+      res.json({code: 11, info: err.message});
+      return;
+    }
+    res.json({code: 10, info: frags});
+  });
+});
+
+router.post(path_frags +'/delFrag', function(req, res) {
+  let ids = req.body.ids;
+  Fragments.remove({_id: {$in: ids}}, function(err, doc) {
+    if(err) {
+      res.json({code: 11, info: err.message});
+      return;
+    }
+    res.json({code: 10, info: []});
+  })
+});
+
+router.post(path_frags +'/updateFrag', function(req, res) {
+  let id = req.body.id;
+  let fields = extract(req.body, ['name', 'content', 'type', 'applied']);
+  Fragments.findByIdAndUpdate(id, fields, function(err, doc) {
+    if(err) {
+      res.json({code: 11, info: err.message});
+      return;
+    }
+    res.json({code: 10, info: []});
+  });
+});
+
+router.post(path_frags +'/addFrag', function(req, res) {
+  let field = extract(req.body, ['name', 'content', 'type', 'applied']);
+  let frags = new Fragments(field);
+  frags.save(function(err, doc) {
+    if(err) {
+      res.json({code: 10, info: err.message});
+      return;
+    }
+    res.json({code: 10, info: []});
+  });
+});
+
 module.exports = router;

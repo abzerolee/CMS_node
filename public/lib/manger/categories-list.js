@@ -13,9 +13,6 @@ function bindEvent() {
     pop.window('分类管理--修改路由', '/manger/categories_add?categoryName='+data.name+'&id='+data._id);
   });
   
-<<<<<<< HEAD
-  
-=======
   $('table').on('click', 'a.option_delet', function(e) {
     e.preventDefault();
     let selector = $(e.currentTarget).closest('tr');
@@ -47,7 +44,6 @@ function delCategory(ids) {
     layer.msg('删除成功',)
     table.ajax.reload()
   });
->>>>>>> de2e15ec010ccde22efb6c87fda99c3504f811e0
 }
 
 $(function() {
@@ -56,11 +52,8 @@ $(function() {
     type: 'get',
     datas: function(d) {
       return {
-<<<<<<< HEAD
-=======
         name: $('#categoryName').val(),
         parent: $('#categoryPName').val(),
->>>>>>> de2e15ec010ccde22efb6c87fda99c3504f811e0
       };
     },
     columns: ['', 'name', 'parent', 'keywords', 'title', 'path', 'order', '_id'],
@@ -81,8 +74,5 @@ $(function() {
     }
   });
 
-  bindEvent();
-
-
-  
+  bindEvent();  
 })
