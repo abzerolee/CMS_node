@@ -10,17 +10,21 @@
 {% block section %}
 <div class="text-c"> 
   路由名称：
-  <input type="text" class="input-text" style="width:120px;" placeholder="输入路由名称" id="name">
-  父级路由名称：
-  <input type="text" class="input-text" style="width:250px" placeholder="输入路由名称" id="parent">
+  <input type="text" class="input-text" style="width:120px;" placeholder="输入路由名称" id="fragName">
+  碎片名称：
+  <input type="text" class="input-text" style="width:250px" placeholder="输入路由名称" id="fragPName">
+  <select name="" id=""></select>
   <button class="btn btn-success radius" id="search"><i class="Hui-iconfont">&#xe665;</i>搜索</button>
+  <button class="btn btn-primary radius" id="clear"><i class="Hui-iconfont">&#xe665;</i>清空</button>
 </div>
 <div class="cl pd-5 bg-1 bk-gray mt-20"> 
   <span class="l">
-    <a href="javascript:;" class="btn btn-danger radius">
+    <a href="javascript:;" class="btn btn-danger radius" id="banch_delet">
       <i class="Hui-iconfont">&#xe6e2;</i> 批量删除
     </a> 
-    <a href="javascript:;" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加路由</a>
+    <a href="javascript:;" class="btn btn-primary radius" id="showAddPage">
+      <i class="Hui-iconfont">&#xe600;</i> 添加路由
+    </a>
   </span> 
   <span class="r">共有数据：<strong id="total"></strong></span>
 </div>
@@ -45,5 +49,6 @@
 {% endblock %}
 
 {% block scripts -%}
-<script type="text/javascript" src="/lib/manger/categories-list.js"></script>
+<!-- <script type="text/javascript" src="/lib/manger/categories-list.js"></script> -->
+<script type="text/javascript" src="/lib/manger/fragments-list.js"></script>
 {%- endblock %}

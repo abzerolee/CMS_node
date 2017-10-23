@@ -1,6 +1,6 @@
 let frags = {
   '/frags/getFrags': {
-    applied: String, // 应用哪个路由 不填默认为公共'public'
+    applied: String, // 应用哪个路由名 不填默认为公共'public'
     name: String, // 碎片名称 中英都可
     type: Number, // 0 图片 1 文字
   },
@@ -52,6 +52,11 @@ let advers = {
   },
 }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 7a4fb710fee4710e3befebdbd35c40693ab48e0b
 let article = {
   '/article/getArticles': {
     title: String, // 标题
@@ -87,4 +92,9 @@ let article = {
     ids: Array, // 更新状态 _id 数组
     state: Boolean, // 状态
   },
+<<<<<<< HEAD
 }
+>>>>>>> 7a4fb710fee4710e3befebdbd35c40693ab48e0b
+=======
+}
+>>>>>>> 7a4fb710fee4710e3befebdbd35c40693ab48e0b

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% include './public/_meta.html' %}
+  <link rel="stylesheet" href="/plugins/webuploader/0.1.5/webuploader.css" />
+  <style>
+    .file-item .info{
+      position: absolute;
+      left: 4px;
+      bottom: 4px;
+      right: 4px;
+      height: 20px;
+      line-height: 20px;
+      text-indent: 5px;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-size: 12px;
+      z-index: 10;
+    }
+    .file-item .error{
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      right: 4px;
+      background: red;
+      color: white;
+      text-align: center;
+      height: 20px;
+      font-size: 14px;
+      line-height: 23px;
+    }
+  </style>
+</head>
+<body>
+  <article class="page-container">
+    <form class="form form-horizontal" id="opForm">
+      <div class="row cl">
+        <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>路由名称：</label>
+        <div class="formControls col-xs-8 col-sm-9">
+          <input type="hidden" name="_id" id="_id" />
+          <input type="text" class="input-text" id="fragName" name="fragName">
+        </div>
+      </div>
+      <div class="row cl">
+        <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>路由类别：</label>
+        <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+            <select name="type" class="select">
+              <option value="1">根路由</option>
+              <option value="2">子路由</option>
+            </select>
+            </span> 
+          </div>
+      </div>
+      <div class="row cl">
+        <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>父级路由：</label>
+        <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+          <select name="pid" class="select" id="pid">
+            <option value="null">无</option>
+          </select>
+          </span> 
+        </div>
+      </div>
+      <div class="row cl">
+        <label class="form-label col-xs-4 col-sm-2">导航显示文本：</label>
+        <div class="formControls col-xs-8 col-sm-9">
+          <input type="text" class="input-text" id="keywords" name="keywords">
+        </div>
+      </div>
+      <div class="row cl">
+        <label class="form-label col-xs-4 col-sm-2">页面标题：</label>
+        <div class="formControls col-xs-8 col-sm-9">
+          <input type="text" class="input-text" id="title" name="title">
+        </div>
+      </div>
+      <div class="row cl">
+        <label class="form-label col-xs-4 col-sm-2">排序：</label>
+        <div class="formControls col-xs-8 col-sm-9">
+          <input type="text" class="input-text" placeholder="数字0~9，数字越大排序在前" id="order" name="order">
+        </div>
+      </div>
+      <div class="row cl">
+        <label class="form-label col-xs-4 col-sm-2">图片标题：</label>
+        <div class="formControls col-xs-8 col-sm-9">
+          <input type="hidden" value="" id="image" name="image"/>
+          <div id="thelist" class="cl">
+            
+          </div>
+          <div class="btns">
+            <div id="picker">选择文件</div>
+          </div>
+        </div>
+      </div>
+      <div class="row cl">
+        <label class="form-label col-xs-4 col-sm-2">简介：</label>
+        <div class="formControls col-xs-8 col-sm-9">
+          <textarea name="description" id="description" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" datatype="*10-100" dragonfly="true" nullmsg="不能为空！" onKeyUp="limitLength(this,10)"></textarea>
+          <p class="textarea-numberbar"><em class="textarea-length">0</em>/200</p>
+        </div>
+      </div>
+      <div class="row cl">
+        <label class="form-label col-xs-4 col-sm-2">备注：</label>
+        <div class="formControls col-xs-8 col-sm-9">
+          <input type="text" class="input-text" id="comments" name="comments">
+        </div>
+      </div>
+      <div class="row cl">
+        <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+          <button class="btn btn-primary radius" type="submit" id="submit"><i class="Hui-iconfont">&#xe632;</i> 保存并提交</button>
+          <button class="btn btn-default radius" id="closeWindow" onclick="pop.close()"> 取消</button>
+        </div>
+      </div>
+    </form>
+  </article>
+  {% include './public/_footer.html' %}
+  <script type="text/javascript" src="/plugins/webuploader/0.1.5/webuploader.min.js"></script>
+  <script type="text/javascript" src="/lib/manger/upload.js"></script>
+  <script type="text/javascript">
+    function bindEvent() {
+      $('#submit').on('click', function(e) {
+        e.preventDefault();
+        let data = getFormValue('#opForm');
+        if(!data.fragName) {
+          layer.alert('路由名称有误！');
+          return;
+        }
+        if(!data.keywords || !data.title){
+          layer.alert('导航显示文本，页面标题有误');
+          return;
+        } 
+
+        data.name = data.fragName;
+        delete data.fragName;
+        data.pid = (data.pid == 'null' ? null : data.pid);
+
+        if(data.type == 1 && data.pid != null) {
+          layer.alert('根路由的父级路由应为\'无\'！');
+          return;
+        }
+        if(data.type == 2 && data.pid == null) {
+          layer.alert('子路由需要一个父级路由!');
+          return;
+        }
+
+        if(fragName) {
+          data.id = getQueryString('id');
+          oajax('/categories/updateCategory', 'post', data, function() {
+            layer.alert('修改成功', pop.close);
+          })
+        }else{
+          oajax('/categories/addCategory', 'post', data, function() {
+            layer.alert('添加成功', pop.close);
+          })
+        }
+      })  
+    }
+    
+    function initPage() {
+      oajax('/categories/getCategory', 'get', {}, function(data) {
+        $.each($.map(data.info, function(v) {
+          let name = v.name;
+          return {name: v.name, id: v._id};
+        }), function(i, v) {
+          $('#pid')[0].innerHTML += '<option value="'+ v.id +'">'+ v.name +'</option>'
+        });
+        
+        if(fragName) {
+          data = data.info.filter(function(v) {
+            return v.name === fragName;
+          })[0];
+
+          data.fragName = data.name;
+          delete data.name;
+          data.type = data.pid ? 2 : 1;
+          setFormValue('#opForm', data);
+          if(data.image) initIMG(data.image);
+        }
+      });
+    }
+
+    $(function() {
+      window.fragName = getQueryString('fragName');
+      initPage();
+      bindEvent();
+    })
+  </script>
+</body>
+</html>
