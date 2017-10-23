@@ -96,7 +96,7 @@
       <div class="row cl">
         <label class="form-label col-xs-4 col-sm-2">简介：</label>
         <div class="formControls col-xs-8 col-sm-9">
-          <textarea name="description" id="description" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" datatype="*10-100" dragonfly="true" nullmsg="不能为空！" onKeyUp="limitLength(this,200)"></textarea>
+          <textarea name="description" id="description" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" datatype="*10-100" dragonfly="true" nullmsg="不能为空！" onKeyUp="limitLength(this,10)"></textarea>
           <p class="textarea-numberbar"><em class="textarea-length">0</em>/200</p>
         </div>
       </div>
@@ -122,8 +122,14 @@
       $('#submit').on('click', function(e) {
         e.preventDefault();
         let data = getFormValue('#opForm');
-        if(!data.categoryName) return layer.alert('路由名称有误！');
-        if(!data.keywords || !data.title) return layer.alert('导航显示文本，页面标题有误');
+        if(!data.categoryName) {
+          layer.alert('路由名称有误！');
+          return;
+        }
+        if(!data.keywords || !data.title){
+          layer.alert('导航显示文本，页面标题有误');
+          return;
+        } 
 
         data.name = data.categoryName;
         delete data.categoryName;

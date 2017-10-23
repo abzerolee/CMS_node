@@ -3,7 +3,7 @@ var table;
 function bindEvent() {
   $('#showAddPage').on('click', function(e) {
     e.preventDefault();
-    pop.window('分类管理--添加路由', '/manger/categories_add?index=');
+    pop.window('分类管理--添加路由', '/manger/categories_add');
   });
 
   $('table').on('click', 'a.option_edit',function(e) {
@@ -18,7 +18,6 @@ function bindEvent() {
     let selector = $(e.currentTarget).closest('tr');
     let data = table.row(selector).data();   
     layer.confirm('您确定删除该路由吗？', function(layero, index) {
-      console.log(layero, index)
       delCategory([data._id]);
     });
   });
@@ -73,6 +72,5 @@ $(function() {
       }
     }
   });
-
-  bindEvent();  
+  bindEvent();
 })
