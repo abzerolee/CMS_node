@@ -97,8 +97,8 @@ let path_frags = '/api/frags/';
 router.get(path_frags +'getFrags', function(req, res) {
   let tmp = extract(req.query, ['applied', 'type', 'name']);
 
-  let query = {condi: tmp, opt: {sort: -1}};
-  Fragments.find(query.condi, query.opt, function(err, frags) {
+  let query = {condi: tmp, opt: {}};
+  Fragments.find(query.condi, function(err, frags) {
     if(err) {
       res.json({code: 11, info: err.message});
       return;
@@ -143,11 +143,7 @@ router.post(path_frags +'addFrag', function(req, res) {
 });
 
 // 广告相关接口 
-<<<<<<< HEAD
 let path_adver = '/api/adver/';
-=======
-let parh_adver = '/api/adver/';
->>>>>>> 7a4fb710fee4710e3befebdbd35c40693ab48e0b
 
 router.get(path_adver +'getAdvers', function(req, res) {
   let condi = extract(req.query, ['name', 'type', 'state']);
