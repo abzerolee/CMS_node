@@ -143,7 +143,7 @@ router.post(path_frags +'addFrag', function(req, res) {
 });
 
 // 广告相关接口 
-let parh_adver = '/api/adver/';
+let path_adver = '/api/adver/';
 
 router.get(path_adver +'getAdvers', function(req, res) {
   let condi = extract(req.query, ['name', 'type', 'state']);
