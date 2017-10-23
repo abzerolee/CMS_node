@@ -75,7 +75,4 @@ $(function() {
 
 <<<<<<< HEAD
   bindEvent();
-=======
-  bindEvent();  
->>>>>>> f07886d24900542297b0e677575d804f133da570
 })
