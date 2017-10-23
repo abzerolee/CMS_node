@@ -4,8 +4,6 @@ const Categories = require('../models/Categories');
 const Advertsing = require('../models/Advertsing');
 const Details = require('../models/Details');
 const Fragments = require('../models/Fragments');
-// 分类管理
-let path_cate = '/api/categories/';
 
 // 判断输入合法
 function isValid(val) {
@@ -31,7 +29,9 @@ router.post('/api/uploadImg', function(req, res) {
   res.json({code: 10, info: files});
 });
 
-// 增加路由 删除路由 修改路由 查找路由
+// 增加路由 删除路由 修改路由 查找路由 分类管理
+let path_cate = '/api/categories/';
+
 router.post(path_cate +'addCategory', function(req, res) {
   let type = req.body.type;
   if(!type) res.json({code: 11, info: 'category no type!'});
@@ -92,9 +92,9 @@ router.get(path_cate +'getCategory', function(req, res) {
 
 
 // 获取所有碎片 删除碎片 修改碎片 添加碎片
-let path_frags = '/api/frags';
+let path_frags = '/api/frags/';
 
-router.get(path_frags +'/getFrags', function(req, res) {
+router.get(path_frags +'getFrags', function(req, res) {
   let tmp = extract(req.query, ['applied', 'type', 'name']);
 
   let query = {condi: tmp, opt: {sort: -1}};
@@ -107,7 +107,7 @@ router.get(path_frags +'/getFrags', function(req, res) {
   });
 });
 
-router.post(path_frags +'/delFrag', function(req, res) {
+router.post(path_frags +'delFrag', function(req, res) {
   let ids = req.body.ids;
   Fragments.remove({_id: {$in: ids}}, function(err, doc) {
     if(err) {
@@ -118,7 +118,7 @@ router.post(path_frags +'/delFrag', function(req, res) {
   })
 });
 
-router.post(path_frags +'/updateFrag', function(req, res) {
+router.post(path_frags +'updateFrag', function(req, res) {
   let id = req.body.id;
   let fields = extract(req.body, ['name', 'content', 'type', 'applied']);
   Fragments.findByIdAndUpdate(id, fields, function(err, doc) {
@@ -130,7 +130,7 @@ router.post(path_frags +'/updateFrag', function(req, res) {
   });
 });
 
-router.post(path_frags +'/addFrag', function(req, res) {
+router.post(path_frags +'addFrag', function(req, res) {
   let field = extract(req.body, ['name', 'content', 'type', 'applied']);
   let frags = new Fragments(field);
   frags.save(function(err, doc) {
@@ -140,6 +140,147 @@ router.post(path_frags +'/addFrag', function(req, res) {
     }
     res.json({code: 10, info: []});
   });
+});
+
+// 广告相关接口 
+let path_adver = '/api/adver/';
+
+router.get(path_adver +'getAdvers', function(req, res) {
+  let condi = extract(req.query, ['name', 'type', 'state']);
+  Advertsing.find(condi, function(err, advers) {
+    if(err) {
+      res.json({code: 11, info: err.message});
+      return;
+    }
+    res.json({code: 10, info: advers});
+  });
+});
+
+router.post(path_adver +'delAdver', function(req, res) {
+  let ids = req.body.ids;
+  Advertsing.remove({_id: {$in: ids}}, function(err, doc) {
+    if(err) {
+      res.json({code: 11, info: err.message});
+      return;
+    }
+    res.json({code: 10, info: []});
+  })
+});
+
+router.post(path_adver +'updateAdver', function(req, res) {
+  let id = req.body.id;
+  let fields = extract(req.body, ['name', 'target', 'state', 'type', 'link', 'title', 'alt']);
+  fields.sImg = _.map(req.body, function(v) {
+    return extract(v, ['img', 'link', 'alt']);
+  });
+
+  Advertsing.findByIdAndUpdate(id, fields, function(err, doc) {
+    if(err) {
+      res.json({code: 11, info: err.message});
+      return;
+    }
+    res.json({code: 10, info: []});
+  });
+});
+
+router.post(path_adver +'addAdver', function(req, res) {
+  let fields = extract(req.body, ['name', 'target', 'state', 'type', 'link', 'title', 'alt']);
+  fields.sImg = _.map(req.body, function(v) {
+    return extract(v, ['img', 'link', 'alt']);
+  });
+
+  let adver = new Advertsing(fields);
+  adver.save(function(err, doc) {
+    if(err) {
+      res.json({code: 11, info: err.message});
+      return;
+    }
+    res.json({code: 10, info: []});
+  })
+});
+
+router.post(path_adver +'updateState', function(req, res) {
+  let id = req.body.id;
+  Advertsing.findById(id, function(err, doc) {
+    if(err) {
+      res.json({code: 11, info: err.message})
+      return;
+    }
+    if(doc.length < 1) {
+      res.json({code: 11, info: 'id is wrong!'})
+      return;
+    }
+    Advertsing.findByIdAndUpdate(doc[0]._id, {state: !doc[0].state}, function(err, doc) {
+      if(err) {
+        res.json({code: 11, info: err.message});
+        return;
+      }
+      res.json({code: 10, info: []});
+    });
+  })
+});
+
+let path_article = '/api/article/';
+
+router.get(path_article +'getArticles', function(req, res) {
+  let query = extract(req.query, ['title', 'tags', 'keywords', 'state', 'author', 'original']);
+  Details.find(query, function(err, articles) {
+    if(err) {
+      res.json({code: 11, info: err.message});
+      return;
+    }
+    res.json({code: 10, info: articles});
+  });
+});
+
+router.post(path_article +'delArticle', function(req, res) {
+  let ids = req.body.ids;
+  Details.remove({_id: {$in: ids}}, function(err, doc) {
+    if(err) {
+      res.json({code: 11, info: err.message});
+      return;
+    }
+    res.json({code: 10, info: []});
+  });
+});
+
+router.post(path_article +'updateArticle', function(req, res) {
+  let id = req.body.id;
+  let fields = extract(req.body, ['title', 'stitle', 'categoryId', 'tags', 'keywords', 'img', 'description', 'author', 'state', 'original', 'source', 'content', 'comments']);
+
+  Details.findByIdAndUpdate(id, fields, function(err, doc) {
+    if(err) {
+      res.json({code: 11, info: err.message});
+      return;
+    }
+    res.json({code: 10, info: []});
+  });
+});
+
+router.post(path_article +'addArticle', function(req, res) {
+  let fields = extract(req.body, ['title', 'stitle', 'categoryId', 'tags', 'keywords', 'img', 'description', 'author', 'state', 'original', 'source', 'content', 'comments']);
+
+  let article = new Details(fields);
+  article.save(function(err, doc) {
+    if(err) {
+      res.json({code: 11, info: err.message});
+      return;
+    }
+    res.json({code: 10, info: []});
+  });
+})
+
+router.post(path_article +'updateState', function(req, res) {
+  let ids = req.body.ids;
+  state = req.body.state;
+
+  Details.findByIdAndUpdate({_id: {$in: ids}}, {state: state}, function(err, doc) {
+    if(err) {
+      res.json({code: 11, info: err.message});
+      return;
+    }
+    res.json({code: 10, info: []});
+  })
 });
 
 module.exports = router;
