@@ -53,7 +53,10 @@ let advers = {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 7a4fb710fee4710e3befebdbd35c40693ab48e0b
 let article = {
   '/article/getArticles': {
     title: String, // 标题
@@ -89,5 +92,9 @@ let article = {
     ids: Array, // 更新状态 _id 数组
     state: Boolean, // 状态
   },
+<<<<<<< HEAD
+}
+>>>>>>> 7a4fb710fee4710e3befebdbd35c40693ab48e0b
+=======
 }
 >>>>>>> 7a4fb710fee4710e3befebdbd35c40693ab48e0b
