@@ -45,29 +45,23 @@ function delFrag(ids){
   });
 }
 
-function updateFrag(applied, name, type, content){
-  oajax('/frags/updateFrag','post',{})
-}
-
 $(function(){
   table = initTable({
     url: '/api/frags/getFrags',
     type: 'get',
     datas: function(d) {
       return {
-        name: $('#fragName').val(),
-        applied:'',
+        name: $('#fragsName').val(),
+        applied: $('#fragName').val(),
+        type:'',
       };
     },
-    columns: ['', 'name', 'parent', 'keywords', 'title', 'path', 'order', '_id'],
+    columns: ['', 'name', 'applied', 'createdAT', 'content', 'type', 'order', '_id'],
     defaults: {
       '0': '<input type="checkbox" class="check">',
       '2': '----'
     },
     callbacks: {
-      '5': function(data, type, row) {
-        return '<a href="'+ data +'">'+ data +'</a>';
-      },
       '7': function(data, type, row) {
         const ops = [];
         ops.push('<a class="option_edit" href="javascript:;">修改</a>');
@@ -76,6 +70,6 @@ $(function(){
       }
     }
   });
-  
+
   bindEvent();
 })
