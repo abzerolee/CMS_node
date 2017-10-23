@@ -97,8 +97,8 @@ let path_frags = '/api/frags/';
 router.get(path_frags +'getFrags', function(req, res) {
   let tmp = extract(req.query, ['applied', 'type', 'name']);
 
-  let query = {condi: tmp, opt: {sort: -1}};
-  Fragments.find(query.condi, query.opt, function(err, frags) {
+  let query = {condi: tmp, opt: {}};
+  Fragments.find(query.condi, function(err, frags) {
     if(err) {
       res.json({code: 11, info: err.message});
       return;
