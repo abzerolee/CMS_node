@@ -72,7 +72,5 @@ $(function() {
       }
     }
   });
-
-<<<<<<< HEAD
   bindEvent();
 })
