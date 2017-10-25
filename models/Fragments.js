@@ -8,7 +8,7 @@ const FragmentSchema = new Schema({
   name: String, // 碎片名称
   fragId: {type: Number},
   type: {type: Number, default: 0}, // 碎片类型 0 为图片 1 为文字
-  applied: {type: String, default: 'public'}, // 应用于哪个路由 与 Category.name对应
+  applied: {type: Schema.Types.ObjectId, ref: 'Categories'}, // 应用于哪个路由 与 Category.name对应
   content: Schema.Types.Mixed,
 }, {timestamps: true});
 

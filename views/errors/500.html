@@ -9,12 +9,10 @@
   <link rel="stylesheet" href="/css/server-error.css">
 </head>
 <body>
-  <!-- container -->
   <div class="server-error">
-    {{errorMsg}}
+    
     <img src="/images/server-error.png" alt="">
-    <!-- {% errorMSG %} -->
-    <p>123123123</p>
+    <p>{{ errorMsg }}</p>
     <div class="error-input">
       <a href="/manger">返回系统首页</a>
       <a href="javascript:history.go(-1);">返回继续操作</a>
