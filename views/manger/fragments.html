@@ -9,15 +9,16 @@
 
 {% block section %}
 <div class="text-c"> 
-  路由名称：
-  <input type="text" class="input-text" style="width:120px;" placeholder="输入路由名称" id="fragName">
+  应用路由：
+  <input type="text" class="input-text" style="width:120px;" placeholder="输入路由名称" id="applied">
   碎片名称：
-  <input type="text" class="input-text" style="width:250px" placeholder="输入碎片名称" id="fragsName">
+  <input type="text" class="input-text" style="width:250px" placeholder="输入碎片名称" id="fragName">
   碎片类型：
   <span class="select-box" style="width:120px;">
-    <select name="pid" id="pid" class="select" style="background-color:#ffffff">
-      <option value="图片">图片</option>
-      <option value="文字">文字</option>
+    <select name="type" id="type" class="select" style="background-color:#ffffff">
+      <option value="">无</option>
+      <option value="0">图片</option>
+      <option value="1">文字</option>
     </select>
   </span>
   <button class="btn btn-success radius" id="search"><i class="Hui-iconfont">&#xe665;</i>搜索</button>
@@ -29,7 +30,7 @@
       <i class="Hui-iconfont">&#xe6e2;</i> 批量删除
     </a> 
     <a href="javascript:;" class="btn btn-primary radius" id="showAddPage">
-      <i class="Hui-iconfont">&#xe600;</i> 添加路由
+      <i class="Hui-iconfont">&#xe600;</i> 添加碎片
     </a>
   </span> 
   <span class="r">共有数据：<strong id="total"></strong></span>
@@ -39,12 +40,12 @@
     <thead>
       <tr class="text-c">
         <th width="15"><input type="checkbox" name="" value=""></th>
+        <th width="15">ID</th>
         <th width="40">碎片名称</th>
-        <th width="60">路由名称</th>        
-        <th width="60">添加时间</th>
-        <th width="80">碎片内容</th>        
-        <th width="80">碎片类型</th>
-        <th width="30">排序</th>
+        <th width="60">碎片类型</th>        
+        <th width="60">应用路由</th>
+        <th width="80">碎片内容</th> 
+        <th width="60">更新时间</th>       
         <th width="80">操作</th>
       </tr>
     </thead>

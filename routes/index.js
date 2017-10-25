@@ -35,9 +35,12 @@ router.get('/manger/advertising', function(req, res) {
 router.get('/manger/fragments', function(req, res) {
   res.render('manger/fragments');
 });
-router.get('/manger/categories_add', function(res, res) {
+router.get('/manger/categories_add', function(req, res) {
   res.render('manger/categories_add');
 });
+router.get('/manger/fragments_add', function(req, res) {
+  res.render('manger/fragments_add');
+})
 router.get('/manger/advertising_add', function(req, res) {
   res.render('manger/advertising_add');
 });

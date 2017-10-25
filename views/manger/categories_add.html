@@ -93,7 +93,7 @@
         e.preventDefault();
         let data = getFormValue('#opForm');
         if(!data.categoryName) {
-          layer.msg('路由名称重复！');
+          layer.msg('路由名称有误！');
           return;
         }
         if(!data.keywords || !data.title){
