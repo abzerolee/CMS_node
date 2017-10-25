@@ -68,7 +68,7 @@
     });
     // 上传图片
     $(this).on('click', '.thumbnail', function() {
-      $(this).siblings('.file').click();
+      $(this).parent().siblings('.file').click();
     });
     $(this).on('change', '.file', function() {
       var data = new FormData(), self = this; 
@@ -82,7 +82,7 @@
         processData: false,
         success: function(data) {
           if(data.code === 10) {
-            $(self).siblings('.thumbnail').attr('src', data.info[0]);
+            $(self).siblings('.thumbnail-wrap').children('.thumbnail').attr('src', data.info[0]);
             $(self).siblings('.simg-item-img').val(data.info[0]);
           }else {
             layer.msg('上传失败 ：）'+ data.info);
@@ -107,15 +107,43 @@
     return sImgs;
   }
 
-  function reSimgItem(index) {
-    return '<div class="sImg-item col-sm-3" data-index="'+index+'">'+
-    '<input type="hidden" value="" class="simg-item-img"/>'+
-    '<input type="file" class="hidden file" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" multiple="false" />'+
-    '<img class="thumbnail" src="/images/uploads.png" />'+
-    '<a href="javascript:;" class="Hui-iconfont trash">&#xe6a6;</a>'+
-    '<input type="text" class="input-text simg-item-link" placeholder="请输入广告连接"/>'+
-    '<input type="text" class="input-text simg-item-alt" placeholder="广告图片加载失败文字"/>'+
-  '</div>';
+  // 页面加载图片
+  $.initSingleIMG = function(path) {
+    var $list = $('#thelist');
+    var $img = $('<div class="file-item thumbnail"><img width="110" height="110" src="'+ path +'" /></div>');
+    $list.html($img)
+  }
+
+  $.initMultiIMG = function(path) {
+    if(path instanceof Array) {
+      $.each(path, function(i, v) {
+        var _html = reSimgItem(i, v);
+        $('#multi_img .sImg-addItem').before(_html);
+      });
+    }
+  }
+
+  function reSimgItem(index, obj) {
+    let $item = $(
+      '<div class="sImg-item col-sm-3" data-index="'+index+'">'+
+        '<input type="hidden" value="" class="simg-item-img"/>'+
+        '<input type="file" class="hidden file" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" multiple="false" />'+
+        '<div class="thumbnail-wrap">'+
+          '<img class="thumbnail" src="/images/uploads.png" />'+
+        '</div>'+
+        '<a href="javascript:;" class="Hui-iconfont trash">&#xe6a6;</a>'+
+        '<input type="text" class="input-text simg-item-link" placeholder="请输入广告连接"/>'+
+        '<input type="text" class="input-text simg-item-alt" placeholder="广告图片加载失败文字"/>'+
+      '</div>');
+
+    if(obj && obj.img && obj.link) {
+      $item.children('.simg-item-img').val(obj.img);
+      $item.find('.thumbnail-wrap>.thumbnail').attr('src', obj.img);
+      $item.children('.simg-item-link').val(obj.link);
+      $item.children('.simg-item-alt').val(obj.alt);
+    }
+
+    return $item;
   }
 
 })(jQuery, layer)

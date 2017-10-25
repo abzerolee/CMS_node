@@ -98,7 +98,7 @@ router.get(path_frags +'getFrags', function(req, res) {
   let tmp = extract(req.query, ['applied', 'type', 'name', '_id']);
 
   let query = {condi: tmp, opt: {}};
-  Fragments.find(query.condi).populate('applied', 'name').exec(function(err, frags) {
+  Fragments.find(query.condi).populate('applied', 'name keywords').exec(function(err, frags) {
     if(err) {
       res.json({code: 11, info: err.message});
       return;
@@ -170,9 +170,16 @@ router.post(path_adver +'delAdver', function(req, res) {
 router.post(path_adver +'updateAdver', function(req, res) {
   let id = req.body.id;
   let fields = extract(req.body, ['name', 'target', 'state', 'type', 'link', 'title', 'alt']);
-  fields.sImg = _.map(req.body, function(v) {
-    return extract(v, ['img', 'link', 'alt']);
-  });
+  let sImg = req.body.sImg;
+  
+  if(sImg.charAt(0) == '[' && sImg.charAt(sImg.length-1) == ']') {
+    sImg = JSON.parse(sImg);
+    fields.sImg = _.map(sImg, function(v) {
+      return extract(v, ['img', 'link', 'alt']);
+    });
+  }else {
+    fields.sImg = sImg;
+  };
 
   Advertsing.findByIdAndUpdate(id, fields, function(err, doc) {
     if(err) {
@@ -252,7 +259,7 @@ router.post(path_article +'delArticle', function(req, res) {
 
 router.post(path_article +'updateArticle', function(req, res) {
   let id = req.body.id;
-  let fields = extract(req.body, ['title', 'stitle', 'categoryId', 'tags', 'keywords', 'img', 'description', 'author', 'state', 'original', 'source', 'content', 'comments']);
+  let fields = extract(req.body, ['title', 'stitle', 'from', 'tags', 'keywords', 'img', 'description', 'author', 'state', 'original', 'source', 'content', 'comments']);
 
   Details.findByIdAndUpdate(id, fields, function(err, doc) {
     if(err) {
@@ -264,7 +271,7 @@ router.post(path_article +'updateArticle', function(req, res) {
 });
 
 router.post(path_article +'addArticle', function(req, res) {
-  let fields = extract(req.body, ['title', 'stitle', 'categoryId', 'tags', 'keywords', 'img', 'description', 'author', 'state', 'original', 'source', 'content', 'comments']);
+  let fields = extract(req.body, ['title', 'stitle', 'from', 'tags', 'keywords', 'img', 'description', 'author', 'state', 'original', 'source', 'content', 'comments']);
 
   let article = new Details(fields);
   article.save(function(err, doc) {
@@ -274,7 +281,7 @@ router.post(path_article +'addArticle', function(req, res) {
     }
     res.json({code: 10, info: []});
   });
-})
+});
 
 router.post(path_article +'updateState', function(req, res) {
   let ids = req.body.ids;

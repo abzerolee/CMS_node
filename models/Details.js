@@ -21,7 +21,7 @@ const DetailsSchema = new Schema({
 }, {timestamps: true});
 
 DetailsSchema.statics.getCategory = function(title, res, cb) {
-  Detail.find({title: title}).populate('from', 'name').exec(function(err, doc) { 
+  Detail.find({title: title}).populate('from', 'name keywords').exec(function(err, doc) { 
     if(err) {
       res.json({code: 11, info: err.message});
       return;

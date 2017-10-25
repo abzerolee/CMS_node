@@ -30,7 +30,8 @@
       text-align: center;
     }
     .sImg-item .thumbnail {
-      width: 190px;
+      width: 100%;
+      max-height: 164px;
       cursor: pointer;
     }
     .sImg-item:nth-child(3n+1),  .sImg-addItem:nth-child(3n+1){
@@ -38,6 +39,10 @@
     }
     .sImg-item input{
       margin-top: 10px;
+    }
+    .thumbnail-wrap {
+      width: 190px;
+      height: 164px;
     }
   </style>
 </head>
@@ -89,7 +94,7 @@
           </span> 
         </div>
       </div>
-      <div class="advertising">
+      <div class="advertising single">
         <div class="row cl">
           <label class="form-label col-xs-4 col-sm-2">广告连接：</label>
           <div class="formControls col-xs-8 col-sm-9">
@@ -115,7 +120,7 @@
           </div>
         </div>
       </div>
-      <div class="advertising hidden">
+      <div class="advertising multi hidden">
         <div class="row cl">
           <label class="form-label col-xs-4 col-sm-2">广告图片：</label>
           <div class="col-xs-8 col-sm-9" id="multi_img">
@@ -163,10 +168,16 @@
           layer.msg('请填写广告文字');
           return;
         }
-
-        oajax('/adver/addAdver', 'post', data, function(data) {
-          layer.alert('修改成功', pop.close);
-        });
+        if(!id) {
+          oajax('/adver/addAdver', 'post', data, function(data) {
+            layer.alert('添加成功', pop.close);
+          });
+        }else {
+          data.id = id;
+          oajax('/adver/updateAdver', 'post', data, function(data) {
+            layer.alert('修改成功', pop.close);
+          })
+        }
       });
       // 单条多条对应
       $('#type').on('change', function(e) {
@@ -177,17 +188,21 @@
 
     function initPage() {
       $('#multi_img').UploadImgs();
+      if(!id) return;
       oajax('/adver/getAdvers', 'get', {'_id': id}, function(data) {
+        data = data.info[0] || {};
         $('#adverName').val(data.name) ;
         $('#type').val(data.type);
-        $('#state').val(data.state);
+        $('#state').val(String(data.state));
         $('#title').val(data.title);
         $('#target').val(data.target);
 
         if(data.type == 0) {
-
+          $.initSingleIMG(data.sImg);
         }else {
-
+          $('.single').addClass('hidden');
+          $('.multi').removeClass('hidden');
+          $.initMultiIMG(data.sImg);
         }
       });
     }

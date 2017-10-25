@@ -23,7 +23,7 @@ router.get('/manger', manger);
 router.get('/manger/categories', function(req, res) {
   res.render('manger/categories');
 });
-router.get('/manger/details', function(req, res) {
+router.get('/manger/article', function(req, res) {
   res.render('manger/details');
 });
 router.get('/manger/website', function(req, res) {
@@ -44,4 +44,10 @@ router.get('/manger/fragments_add', function(req, res) {
 router.get('/manger/advertising_add', function(req, res) {
   res.render('manger/advertising_add');
 });
+<<<<<<< HEAD
+=======
+router.get('/manger/article_add', function(req, res) {
+  res.render('manger/details_add');
+})
+>>>>>>> d2856d0a4c988576b136fd51798c3c08bba07cf6
 module.exports = router;

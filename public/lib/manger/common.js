@@ -236,10 +236,3 @@ function setFormValue(form, value, numToBoolean) {
     })
   });
 }
-
-// 页面加载图片
-function initIMG(path) {
-  var $list = $('#thelist');
-  var $img = $('<div class="file-item thumbnail"><img width="110" height="110" src="'+ path +'" /></div>');
-  $list.html($img)
-}
