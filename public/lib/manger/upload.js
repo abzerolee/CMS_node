@@ -1,4 +1,4 @@
-;(function($) {
+;(function($, layer) {
   var uploader = new WebUploader.Uploader({
     auto: true,
     swf: '/plugins/webuploader/0.1.5/Uploader.swf',
@@ -42,4 +42,80 @@
     }
     $error.text('上传失败');
   });
-})(jQuery)
+
+  // 多图上传
+  $.fn.UploadImgs = function() {
+    // 清除图片项
+    var root = this;
+    $(this).on('click', '.trash', function() {
+      var self = this;
+      layer.confirm('您确定要删除该图片吗？', function(index) {
+        $(self).parent().remove();
+        var len = $(root).children('.sImg-item').length;
+        if(len < 6) {
+          $(root).children('.sImg-addItem').show();
+        }
+        layer.close(index);
+      });
+    });
+    // 添加图片项
+    $(this).on('click', '.sImg-addItem>a', function() {
+      var len = $(root).children('.sImg-item').length;
+      $(this).parent().before(reSimgItem(len));
+      if(++len >= 6)  {
+        $(root).children('.sImg-addItem').hide();
+      }
+    });
+    // 上传图片
+    $(this).on('click', '.thumbnail', function() {
+      $(this).siblings('.file').click();
+    });
+    $(this).on('change', '.file', function() {
+      var data = new FormData(), self = this; 
+      data.append('file', this.files[0]);
+      $.ajax({
+        url:'/api/uploadImg',
+        type: 'post',
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function(data) {
+          if(data.code === 10) {
+            $(self).siblings('.thumbnail').attr('src', data.info[0]);
+            $(self).siblings('.simg-item-img').val(data.info[0]);
+          }else {
+            layer.msg('上传失败 ：）'+ data.info);
+          }
+        }
+      });
+    });
+
+    return root;
+  }
+
+  $.fn.getSimgs = function() {
+    var root = this;
+    var items = $(this).children('.sImg-item');
+    let sImgs = $.map(items, function(item) {
+      return {
+        img: $(item).children('.simg-item-img').val(),
+        link: $(item).children('.simg-item-link').val(),
+        alt: $(item).children('.simg-item-alt').val()
+      }
+    });
+    return sImgs;
+  }
+
+  function reSimgItem(index) {
+    return '<div class="sImg-item col-sm-3" data-index="'+index+'">'+
+    '<input type="hidden" value="" class="simg-item-img"/>'+
+    '<input type="file" class="hidden file" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" multiple="false" />'+
+    '<img class="thumbnail" src="/images/uploads.png" />'+
+    '<a href="javascript:;" class="Hui-iconfont trash">&#xe6a6;</a>'+
+    '<input type="text" class="input-text simg-item-link" placeholder="请输入广告连接"/>'+
+    '<input type="text" class="input-text simg-item-alt" placeholder="广告图片加载失败文字"/>'+
+  '</div>';
+  }
+
+})(jQuery, layer)

@@ -37,5 +37,8 @@ router.get('/manger/fragments', function(req, res) {
 });
 router.get('/manger/categories_add', function(res, res) {
   res.render('manger/categories_add');
-})
+});
+router.get('/manger/advertising_add', function(req, res) {
+  res.render('manger/advertising_add');
+});
 module.exports = router;

@@ -3,21 +3,33 @@ const Schema = mongoose.Schema;
 
 const DetailsSchema = new Schema({
 
-  title: String, // 文章标题
-  stitle: String, // 文章副标题
-  categoryId: {type: Schema.Types.ObjectId, ref: 'Categories'}, // 归属分类 父级_id
-  tags: String, // 文章标签
-  keywords: String, // 文章关键字
-  img: String, // 文章图片标题
-  description: String, // 简介
-  author: String, // 作者
-  state: {type: Boolean, default: true}, // 文章状态 true显示 false关闭
+  title: String,
+  stitle: String,
+  from: {type: Schema.Types.ObjectId, ref: 'Categories'},
+  tags: String,
+  keywords: String,
+  img: String,
+  description: String,
+  author: String,
+  state: {type: Boolean, default: true},
   browse: {type: Number, default: 0},
-  original: {type: Boolean, default: true}, // 是否原创
-  source: String, // 非原创来源
-  content: String, // 具体内容
-  comments: String // 备注
+  original: {type: Boolean, default: true},
+  source: String,
+  content: String,
+  comments: String
   
 }, {timestamps: true});
 
-module.exports = mongoose.model('Detail', DetailsSchema);
+DetailsSchema.statics.getCategory = function(title, res, cb) {
+  Detail.find({title: title}).populate('from', 'name').exec(function(err, doc) { 
+    if(err) {
+      res.json({code: 11, info: err.message});
+      return;
+    }
+    cb.call(null, doc);
+  })
+}
+
+const Detail = mongoose.model('Detail', DetailsSchema);
+
+module.exports = Detail;

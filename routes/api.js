@@ -73,7 +73,7 @@ router.post(path_cate +'updateCategory', function(req, res) {
 });
 
 router.get(path_cate +'getCategory', function(req, res) {
-  let tmp = extract(req.query, ['name', 'parent']);
+  let tmp = extract(req.query, ['name', 'parent', '_id']);
   // parent转为pid
   if(tmp.parent) {
     tmp.pid = res.locals.cache.get(tmp.parent)._id;
@@ -95,10 +95,10 @@ router.get(path_cate +'getCategory', function(req, res) {
 let path_frags = '/api/frags/';
 
 router.get(path_frags +'getFrags', function(req, res) {
-  let tmp = extract(req.query, ['applied', 'type', 'name']);
+  let tmp = extract(req.query, ['applied', 'type', 'name', '_id']);
 
   let query = {condi: tmp, opt: {}};
-  Fragments.find(query.condi, function(err, frags) {
+  Fragments.find(query.condi).populate('applied', 'name').exec(function(err, frags) {
     if(err) {
       res.json({code: 11, info: err.message});
       return;
@@ -146,7 +146,7 @@ router.post(path_frags +'addFrag', function(req, res) {
 let path_adver = '/api/adver/';
 
 router.get(path_adver +'getAdvers', function(req, res) {
-  let condi = extract(req.query, ['name', 'type', 'state']);
+  let condi = extract(req.query, ['name', 'type', 'state', '_id']);
   Advertsing.find(condi, function(err, advers) {
     if(err) {
       res.json({code: 11, info: err.message});
@@ -185,9 +185,15 @@ router.post(path_adver +'updateAdver', function(req, res) {
 
 router.post(path_adver +'addAdver', function(req, res) {
   let fields = extract(req.body, ['name', 'target', 'state', 'type', 'link', 'title', 'alt']);
-  fields.sImg = _.map(req.body, function(v) {
-    return extract(v, ['img', 'link', 'alt']);
-  });
+  let sImg = req.body.sImg;
+  if(sImg.charAt(0) == '[' && sImg.charAt(sImg.length-1) == ']') {
+    sImg = JSON.parse(sImg);
+    fields.sImg = _.map(sImg, function(v) {
+      return extract(v, ['img', 'link', 'alt']);
+    });
+  }else {
+    fields.sImg = sImg;
+  };
 
   let adver = new Advertsing(fields);
   adver.save(function(err, doc) {
@@ -223,7 +229,7 @@ router.post(path_adver +'updateState', function(req, res) {
 let path_article = '/api/article/';
 
 router.get(path_article +'getArticles', function(req, res) {
-  let query = extract(req.query, ['title', 'tags', 'keywords', 'state', 'author', 'original']);
+  let query = extract(req.query, ['_id', 'title', 'tags', 'keywords', 'state', 'author', 'original']);
   Details.find(query, function(err, articles) {
     if(err) {
       res.json({code: 11, info: err.message});
@@ -282,5 +288,14 @@ router.post(path_article +'updateState', function(req, res) {
     res.json({code: 10, info: []});
   })
 });
+
+router.get(path_article +'getArticleFrom', function(req, res) {
+  let title = req.query.title;
+  Details.getCategory(title, res, function(doc) {
+    console.log(doc[0].from);
+    res.json(doc);
+  })
+})
+
 
 module.exports = router;
