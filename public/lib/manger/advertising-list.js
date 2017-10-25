@@ -63,14 +63,15 @@ $(function() {
     callbacks: {
       '4': function(data, type, row) {
         if(row.type == 1) {
-          return row.sImg[0].link;
+          return row.sImg[0] && row.sImg[0].link;
         }else {
           return data;
         }
       },
       '5': function(data, type, row) {
         if(data instanceof Array) {
-          return '<img width="200" style="max-height:150px;" src="'+ data[0].img +'" />';
+          let img = data[0] && data[0].img;
+          return '<img width="200" style="max-height:150px;" src="'+ img +'" />';
         }else {
           return '<img width="200" style="max-height:150px;" src="'+ data +'"/>';
         }

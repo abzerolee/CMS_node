@@ -27,7 +27,7 @@ AdvertisingSchema.pre('save', function(next) {
       next();
     })
     .catch(function(err) {
-      console.error(err);
+      next(err);
     })
 });
 
