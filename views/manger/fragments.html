@@ -2,7 +2,7 @@
 
 {% block pageing -%}
 <span class="c-999 en">&gt;</span>
-<span class="c-666">分类管理</span> 
+<span class="c-666">碎片管理</span> 
 <span class="c-999 en">&gt;</span>
 <span class="c-666">碎片管理</span> 
 {%- endblock %}
@@ -12,8 +12,14 @@
   路由名称：
   <input type="text" class="input-text" style="width:120px;" placeholder="输入路由名称" id="fragName">
   碎片名称：
-  <input type="text" class="input-text" style="width:250px" placeholder="输入路由名称" id="fragPName">
-  <select name="" id=""></select>
+  <input type="text" class="input-text" style="width:250px" placeholder="输入碎片名称" id="fragsName">
+  碎片类型：
+  <span class="select-box" style="width:120px;">
+    <select name="pid" id="pid" class="select" style="background-color:#ffffff">
+      <option value="图片">图片</option>
+      <option value="文字">文字</option>
+    </select>
+  </span>
   <button class="btn btn-success radius" id="search"><i class="Hui-iconfont">&#xe665;</i>搜索</button>
   <button class="btn btn-primary radius" id="clear"><i class="Hui-iconfont">&#xe665;</i>清空</button>
 </div>
@@ -33,11 +39,11 @@
     <thead>
       <tr class="text-c">
         <th width="15"><input type="checkbox" name="" value=""></th>
-        <th width="60">路由名称</th>
-        <th width="40">父级名称</th>
-        <th width="60">导航显示文本</th>
-        <th width="80">页面标题</th>
-        <th width="80">全路径</th>
+        <th width="40">碎片名称</th>
+        <th width="60">路由名称</th>        
+        <th width="60">添加时间</th>
+        <th width="80">碎片内容</th>        
+        <th width="80">碎片类型</th>
         <th width="30">排序</th>
         <th width="80">操作</th>
       </tr>
@@ -49,6 +55,5 @@
 {% endblock %}
 
 {% block scripts -%}
-<!-- <script type="text/javascript" src="/lib/manger/categories-list.js"></script> -->
 <script type="text/javascript" src="/lib/manger/fragments-list.js"></script>
 {%- endblock %}
