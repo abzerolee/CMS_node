@@ -46,7 +46,6 @@ function delFrag(ids){
 }
 
 $(function(){
-
   table = initTable({
     url: '/api/frags/getFrags',
     type: 'get',
@@ -59,15 +58,19 @@ $(function(){
     },
     columns: ['','fragId', 'name', 'type' ,'applied', 'content','updatedAt', '_id'],
     defaults: {
-      '0': '<input type="checkbox" class="check">'
+      '0': '<input type="checkbox" class="check">',
+      '4': '公共'
     },
     callbacks: {
       '3': function(data) {
         let tmp = ['图片', '文字'];
         return '<span class="label label-success radius">'+ tmp[data] +'</span>'
       },
-      '4': function(data) {
-        return data == 'public' ? '公共' : data;
+      '4': function(data){
+        if(data == null){
+          return null;
+        }
+        return  data.name;
       },
       '5': function(data, type, row){
         return row.type == 0 ? '<img width = "30" src = "'+ data + '">': data ;

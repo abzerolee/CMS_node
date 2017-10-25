@@ -38,13 +38,10 @@ router.get('/manger/fragments', function(req, res) {
 router.get('/manger/categories_add', function(req, res) {
   res.render('manger/categories_add');
 });
-<<<<<<< HEAD
 router.get('/manger/fragments_add', function(req, res) {
   res.render('manger/fragments_add');
 })
-=======
 router.get('/manger/advertising_add', function(req, res) {
   res.render('manger/advertising_add');
 });
->>>>>>> 1d9410760007c8599a44cdc431e386ad4f83b047
 module.exports = router;

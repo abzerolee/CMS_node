@@ -1,36 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   {% include './public/_meta.html' %}
   <link rel="stylesheet" href="/plugins/webuploader/0.1.5/webuploader.css" />
 </head>
+
 <body>
   <article class="page-container">
     <form class="form form-horizontal" id="opForm">
       <div class="row cl">
-        <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>碎片名称：</label>
+        <label class="form-label col-xs-4 col-sm-2">
+          <span class="c-red">*</span>碎片名称：</label>
         <div class="formControls col-xs-8 col-sm-9">
           <input type="hidden" name="_id" id="_id" />
           <input type="text" class="input-text" id="fragName" name="fragName">
         </div>
       </div>
       <div class="row cl">
-        <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>碎片类型：</label>
-        <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-          <select name="type" class="select" id="type">
-            <option value="0">图片</option>
-            <option value="1">文字</option>
-          </select>
-          </span> 
+        <label class="form-label col-xs-4 col-sm-2">
+          <span class="c-red">*</span>碎片类型：</label>
+        <div class="formControls col-xs-8 col-sm-9">
+          <span class="select-box">
+            <select name="type" class="select" id="type">
+              <option value="0">图片</option>
+              <option value="1">文字</option>
+            </select>
+          </span>
         </div>
       </div>
       <div class="row cl">
-        <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>应用路由：</label>
-        <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-          <select name="applied" class="select" id="applied">
-            <option value="public">公共</option>
-          </select>
-          </span> 
+        <label class="form-label col-xs-4 col-sm-2">
+          <span class="c-red">*</span>应用路由：</label>
+        <div class="formControls col-xs-8 col-sm-9">
+          <span class="select-box">
+            <select name="applied" class="select" id="applied">
+              <option value="null">公共</option>
+            </select>
+          </span>
         </div>
       </div>
       <div class="row cl">
@@ -38,19 +45,20 @@
         <div class="formControls col-xs-8 col-sm-9">
           <input type="text" class="input-text" id="content" name="content" hidden>
           <div id="pic">
-            <input type="hidden" value="" id="image" name="image"/>
+            <input type="hidden" value="" id="image" name="image" />
             <div id="thelist" class="cl">
-              
+
             </div>
             <div class="btns">
               <div id="picker">选择文件</div>
             </div>
           </div>
-        </div>                
+        </div>
       </div>
       <div class="row cl">
         <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
-          <button class="btn btn-primary radius" type="submit" id="submit"><i class="Hui-iconfont">&#xe632;</i> 保存并提交</button>
+          <button class="btn btn-primary radius" type="submit" id="submit">
+            <i class="Hui-iconfont">&#xe632;</i> 保存并提交</button>
           <button class="btn btn-default radius" id="closeWindow" onclick="pop.close()"> 取消</button>
         </div>
       </div>
@@ -61,88 +69,93 @@
   <script type="text/javascript" src="/lib/manger/upload.js"></script>
   <script type="text/javascript">
     function bindEvent() {
-      $('#submit').on('click', function(e) {
+      $('#submit').on('click', function (e) {
         e.preventDefault();
         let data = getFormValue('#opForm');
-        console.log(data);
         delete data._id;
+        delete data.description;
+        delete data.comments;
         data.name = data.fragName;
         delete data.fragName;
 
-        if(data.type == 0) {
+        if (data.type == 0) {
           data.content = data.image;
         }
         delete data.image;
-        
-        if(!data.name) {
+
+        if (!data.name) {
           layer.msg('碎片名称有误！');
           return;
         }
-        if(!data.content) {
+        if (!data.content) {
           layer.msg('碎片内容有误！');
           return;
         }
-        if(id) {
+        if (id) {
           data.id = getQueryString('id');
-          oajax('/frags/updateFrag', 'post', data , function() {
+          oajax('/frags/updateFrag', 'post', data, function () {
             layer.alert('修改成功', pop.close);
           })
-        }else{
-          oajax('/frags/addFrag', 'post', data , function() {
+        } else {
+          oajax('/frags/addFrag', 'post', data, function () {
             layer.alert('添加成功', pop.close);
           })
         }
-      })  
+      })
     }
-    function typeChange(){
-      $('#type').change(function(){
-        var selectedValue=$(this).val();
-        if(selectedValue == 0){
+    function typeChange() {
+      $('#type').change(function () {
+        var selectedValue = $(this).val();
+        if (selectedValue == 0) {
           $('#pic').show();
           $('#content').hide();
         }
-        if(selectedValue == 1){
+        if (selectedValue == 1) {
           $('#content').show();
           $('#pic').hide();
         }
-      });    
+      });
     }
-    
+
     function initPage() {
       typeChange();
-      oajax('/categories/getCategory', 'get', {id}, function(data) {
-        $.each($.map(data.info, function(v) {
+      oajax('/categories/getCategory', 'get', { id }, function (data) {
+        $.each($.map(data.info, function (v) {
           let name = v.name;
-          return {name: v.name, id: v._id};
-        }), function(i, v) {
-          $('#applied').html()
-          $('#applied')[0].innerHTML += '<option value="'+ v.id +'">'+ v.name +'</option>'
+          return { name: v.name, id: v._id };
+        }), function (i, v) {
+
+          $('#applied')[0].innerHTML += '<option value="' + v.id + '">' + v.name + '</option>'
+          if (id) {
+            var name = getQueryString('name');
+            var data = {
+              id: id,
+              name: name,
+              type: type,
+              applied: applied,
+              content: content,
+            }
+            console.log(data);
+            data.type = 1;
+            data.applied = '59bb6fa21f4d6f03c798d1ad';
+            data.fragName = data.name;
+            delete data.name;
+
+            setFormValue('#opForm', data);
+            if (data.image) initIMG(data.image);
+          }
         });
+
       });
 
-
-      if(id) {
-        var name = getQueryString('name');
-        var data = {
-          id: id,
-          name: name,
-          content: content,
-          type:type,
-          applied:applied,
-        }
-        data.fragName = data.name;
-        delete data.name;
-        
-        setFormValue('#opForm', data);
-        if(data.image) initIMG(data.image);
-      }
     }
 
-    $(function() {
+    $(function () {
       window.id = getQueryString('id');
       initPage();
       bindEvent();
     })
   </script>
 </body>
+
 </html>

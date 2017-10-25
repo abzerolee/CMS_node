@@ -140,7 +140,7 @@
           data = data.info.filter(function(v) {
             return v.name === categoryName;
           })[0];
-
+          
           data.categoryName = data.name;
           delete data.name;
           data.type = data.pid ? 2 : 1;
