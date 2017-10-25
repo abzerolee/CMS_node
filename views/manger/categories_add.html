@@ -123,11 +123,11 @@
         e.preventDefault();
         let data = getFormValue('#opForm');
         if(!data.categoryName) {
-          layer.alert('路由名称有误！');
+          layer.msg('路由名称有误！');
           return;
         }
         if(!data.keywords || !data.title){
-          layer.alert('导航显示文本，页面标题有误');
+          layer.msg('导航显示文本，页面标题有误');
           return;
         } 
 
@@ -136,11 +136,11 @@
         data.pid = (data.pid == 'null' ? null : data.pid);
 
         if(data.type == 1 && data.pid != null) {
-          layer.alert('根路由的父级路由应为\'无\'！');
+          layer.msg('根路由的父级路由应为\'无\'！');
           return;
         }
         if(data.type == 2 && data.pid == null) {
-          layer.alert('子路由需要一个父级路由!');
+          layer.msg('子路由需要一个父级路由!');
           return;
         }
 

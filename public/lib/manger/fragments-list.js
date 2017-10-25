@@ -3,14 +3,14 @@ var table;
 function bindEvent(){
   $('#showAddPage').on('click',function(e){
     e.preventDefault();
-    pop.window('分类管理--添加路由','/manger/fragments_add');
+    pop.window('分类管理--添加碎片', '/manger/fragments_add');
   });
 
   $('table').on('click', 'a.option_edit',function(e) {
     e.preventDefault();
     let selector = $(e.currentTarget).closest('tr');
     let data = table.row(selector).data();   
-    pop.window('分类管理--修改路由', '/manger/fragments_add?fragName='+data.name+'&id='+data._id);
+    pop.window('分类管理--修改碎片', '/manger/fragments_add?id='+data._id+'&name='+data.name+'&applied'+data.applied+'&content'+data.content+'&type'+data.type);
   });
 
   $('table').on('click', 'a.option_delet', function(e) {
@@ -46,22 +46,32 @@ function delFrag(ids){
 }
 
 $(function(){
+
   table = initTable({
     url: '/api/frags/getFrags',
     type: 'get',
     datas: function(d) {
       return {
-        name: $('#fragsName').val(),
-        applied: $('#fragName').val(),
-        type:'',
+        name: $('#fragName').val(),
+        applied: $('#applied').val(),
+        type: $('#type').val(),
       };
     },
-    columns: ['', 'name', 'applied', 'createdAT', 'content', 'type', 'order', '_id'],
+    columns: ['','fragId', 'name', 'type' ,'applied', 'content','updatedAt', '_id'],
     defaults: {
-      '0': '<input type="checkbox" class="check">',
-      '2': '----'
+      '0': '<input type="checkbox" class="check">'
     },
     callbacks: {
+      '3': function(data) {
+        let tmp = ['图片', '文字'];
+        return '<span class="label label-success radius">'+ tmp[data] +'</span>'
+      },
+      '4': function(data) {
+        return data == 'public' ? '公共' : data;
+      },
+      '5': function(data, type, row){
+        return row.type == 0 ? '<img width = "30" src = "'+ data + '">': data ;
+      },
       '7': function(data, type, row) {
         const ops = [];
         ops.push('<a class="option_edit" href="javascript:;">修改</a>');
