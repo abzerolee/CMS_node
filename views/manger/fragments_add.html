@@ -43,7 +43,7 @@
       <div class="row cl">
         <label class="form-label col-xs-4 col-sm-2">碎片内容：</label>
         <div class="formControls col-xs-8 col-sm-9">
-          <input type="text" class="input-text" id="content" name="content" hidden>
+          <input type="text" class="input-text hidden" id="content" name="content" >
           <div id="pic">
             <input type="hidden" value="" id="image" name="image" />
             <div id="thelist" class="cl">
@@ -73,8 +73,6 @@
         e.preventDefault();
         let data = getFormValue('#opForm');
         delete data._id;
-        delete data.description;
-        delete data.comments;
         data.name = data.fragName;
         delete data.fragName;
 
@@ -91,6 +89,7 @@
           layer.msg('碎片内容有误！');
           return;
         }
+        
         if (id) {
           data.id = getQueryString('id');
           oajax('/frags/updateFrag', 'post', data, function () {
@@ -103,51 +102,52 @@
         }
       })
     }
+
     function typeChange() {
       $('#type').change(function () {
         var selectedValue = $(this).val();
         if (selectedValue == 0) {
-          $('#pic').show();
-          $('#content').hide();
+          $('#content').addClass('hidden');
+          $('#pic').removeClass('hidden');
         }
         if (selectedValue == 1) {
-          $('#content').show();
-          $('#pic').hide();
+          $('#pic').addClass('hidden');
+          $('#content').removeClass('hidden');
         }
       });
     }
 
     function initPage() {
       typeChange();
+
+      // 初始化应用路由
       oajax('/categories/getCategory', 'get', { id }, function (data) {
         $.each($.map(data.info, function (v) {
           let name = v.name;
           return { name: v.name, id: v._id };
         }), function (i, v) {
-
           $('#applied')[0].innerHTML += '<option value="' + v.id + '">' + v.name + '</option>'
-          if (id) {
-            var name = getQueryString('name');
-            var data = {
-              id: id,
-              name: name,
-              type: type,
-              applied: applied,
-              content: content,
-            }
-            console.log(data);
-            data.type = 1;
-            data.applied = '59bb6fa21f4d6f03c798d1ad';
-            data.fragName = data.name;
-            delete data.name;
-
-            setFormValue('#opForm', data);
-            if (data.image) initIMG(data.image);
-          }
         });
 
+        if(id) {
+          var data = {
+            id: id,
+            name: getQueryString('name'),
+            type: getQueryString('type'),
+            applied: getQueryString('applied'),
+            content: getQueryString('content'),
+          }
+          data.fragName = data.name;
+          delete data.name;
+          if(data.type == 0){
+            $.initSingleIMG(data.content);
+          }else{
+            $('#pic').addClass('hidden');
+            $('#content').removeClass('hidden');
+          }
+          setFormValue('#opForm', data);
+        }
       });
-
     }
 
     $(function () {

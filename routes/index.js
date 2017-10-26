@@ -46,5 +46,5 @@ router.get('/manger/advertising_add', function(req, res) {
 });
 router.get('/manger/article_add', function(req, res) {
   res.render('manger/details_add');
-});
+})
 module.exports = router;

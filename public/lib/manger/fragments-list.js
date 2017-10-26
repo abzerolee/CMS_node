@@ -9,8 +9,15 @@ function bindEvent(){
   $('table').on('click', 'a.option_edit',function(e) {
     e.preventDefault();
     let selector = $(e.currentTarget).closest('tr');
-    let data = table.row(selector).data();   
-    pop.window('分类管理--修改碎片', '/manger/fragments_add?id='+data._id+'&name='+data.name+'&applied'+data.applied+'&content'+data.content+'&type'+data.type);
+    let data = table.row(selector).data();
+
+    let url = '/manger/fragments_add'+
+       '?id='+ data._id +
+       '&name='+ data.name +
+       '&applied='+ (data.applied && data.applied._id) +
+       '&content='+ data.content +
+       '&type='+ data.type;
+    pop.window('分类管理--修改碎片', url);
   });
 
   $('table').on('click', 'a.option_delet', function(e) {

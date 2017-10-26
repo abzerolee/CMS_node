@@ -121,6 +121,9 @@ router.post(path_frags +'delFrag', function(req, res) {
 router.post(path_frags +'updateFrag', function(req, res) {
   let id = req.body.id;
   let fields = extract(req.body, ['name', 'content', 'type', 'applied']);
+  if(fields.applied && fields.applied == 'null') {
+    fields.applied = null
+  }
   Fragments.findByIdAndUpdate(id, fields, function(err, doc) {
     if(err) {
       res.json({code: 11, info: err.message});
