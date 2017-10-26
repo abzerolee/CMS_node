@@ -131,9 +131,11 @@
       oajax('/categories/getCategory', 'get', {}, function(data) {
         $.each($.map(data.info, function(v) {
           let name = v.name;
-          return {name: v.name, id: v._id};
+          return {name: v.name, id: v._id, pid: v.pid};
         }), function(i, v) {
-          $('#pid')[0].innerHTML += '<option value="'+ v.id +'">'+ v.name +'</option>'
+          $('#pid')[0].innerHTML += v.pid 
+            ? '<option value="'+ v.id +'">|-'+ v.name +'</option>' 
+            : '<option value="'+ v.id +'">'+ v.name +'</option>'
         });
         
         if(categoryName) {

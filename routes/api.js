@@ -212,32 +212,17 @@ router.post(path_adver +'addAdver', function(req, res) {
   })
 });
 
-router.post(path_adver +'updateState', function(req, res) {
-  let id = req.body.id;
-  Advertsing.findById(id, function(err, doc) {
-    if(err) {
-      res.json({code: 11, info: err.message})
-      return;
-    }
-    if(doc.length < 1) {
-      res.json({code: 11, info: 'id is wrong!'})
-      return;
-    }
-    Advertsing.findByIdAndUpdate(doc[0]._id, {state: !doc[0].state}, function(err, doc) {
-      if(err) {
-        res.json({code: 11, info: err.message});
-        return;
-      }
-      res.json({code: 10, info: []});
-    });
-  })
-});
-
 let path_article = '/api/article/';
 
 router.get(path_article +'getArticles', function(req, res) {
   let query = extract(req.query, ['_id', 'title', 'tags', 'keywords', 'state', 'author', 'original']);
-  Details.find(query, function(err, articles) {
+  if(query.tags) {
+    query.tags = {$in: query.tags.split(',')} 
+  }
+  if(query.keywords) {
+    query.keywords =  {$in: query.keywords.split(',')};
+  }
+  Details.find(query).populate('from', '_id name keywords').exec(function(err, articles) {
     if(err) {
       res.json({code: 11, info: err.message});
       return;
@@ -261,6 +246,9 @@ router.post(path_article +'updateArticle', function(req, res) {
   let id = req.body.id;
   let fields = extract(req.body, ['title', 'stitle', 'from', 'tags', 'keywords', 'img', 'description', 'author', 'state', 'original', 'source', 'content', 'comments']);
 
+  fields.keywords = fields.keywords && fields.keywords.split(',');
+  fields.tags = fields.tags && fields.tags.split(',');
+
   Details.findByIdAndUpdate(id, fields, function(err, doc) {
     if(err) {
       res.json({code: 11, info: err.message});
@@ -273,6 +261,9 @@ router.post(path_article +'updateArticle', function(req, res) {
 router.post(path_article +'addArticle', function(req, res) {
   let fields = extract(req.body, ['title', 'stitle', 'from', 'tags', 'keywords', 'img', 'description', 'author', 'state', 'original', 'source', 'content', 'comments']);
 
+  fields.keywords = fields.keywords && fields.keywords.split(',');
+  fields.tag = fields.tag && fields.tag.split(',');
+
   let article = new Details(fields);
   article.save(function(err, doc) {
     if(err) {
@@ -282,27 +273,6 @@ router.post(path_article +'addArticle', function(req, res) {
     res.json({code: 10, info: []});
   });
 });
-
-router.post(path_article +'updateState', function(req, res) {
-  let ids = req.body.ids;
-  state = req.body.state;
-
-  Details.findByIdAndUpdate({_id: {$in: ids}}, {state: state}, function(err, doc) {
-    if(err) {
-      res.json({code: 11, info: err.message});
-      return;
-    }
-    res.json({code: 10, info: []});
-  })
-});
-
-router.get(path_article +'getArticleFrom', function(req, res) {
-  let title = req.query.title;
-  Details.getCategory(title, res, function(doc) {
-    console.log(doc[0].from);
-    res.json(doc);
-  })
-})
 
 
 module.exports = router;

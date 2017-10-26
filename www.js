@@ -48,7 +48,7 @@ function startServer() {
     }  
     //  客户端发起图片列表请求  
     else if (req.query.action === 'listimage') {  
-      var dir_url = '/uploads/ueditor/images/';  
+      var dir_url = '/uploads/ueditor/img/';  
       res.ue_list(dir_url); // 客户端会列出 dir_url 目录下的所有图片  
     }  
     // 客户端发起其它请求  
