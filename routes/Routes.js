@@ -128,6 +128,7 @@ function Double(params, res) {
     }
   ]
 }
+
 Double.prototype = {
   constructor: Double,
   findSubitem: function(cb) {
@@ -188,9 +189,26 @@ function Trible(params, res) {
   let self = this;
   this.otherQuerys = [
     function(cb) {
-      
-    }
+      self.findArticle();
+    } 
   ]
+}
+
+Trible.prototype = {
+  findArticle: function(cb) {
+    let from = this.cache.get(this.subitem)._id, self = this;
+    Details.findOne({_id: this.detail}, function(err, artciles) {
+      if(err) {
+        self.err(err, err.message);
+        return;
+      }
+      if(artciles.length === 0) {
+        self.notfound();
+        return;
+      }
+      self.data.section = articles;
+    })
+  }
 }
 
 nim.extends(Double, Routes);
