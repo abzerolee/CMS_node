@@ -11,8 +11,7 @@ const app = express();
 // 连接数据库
 const db = mongoose.connect(settings.URL, {useMongoClient: true}, function(err) {
   if(err) {
-    console.error(err.message);
-    return;
+    throw err;
   }
   console.log('********************************************\n');
   console.log('the mongodb is running at '+ settings.URL +'\n');
@@ -35,7 +34,7 @@ function startServer() {
     //客户端上传文件设置  
     var ActionType = req.query.action;  
     if (ActionType === 'uploadimage' || ActionType === 'uploadfile' || ActionType === 'uploadvideo') {  
-      var file_url = '/uploads/ueditor/img/';//默认图片上传地址  
+      var file_url = '/uploads/ueditor/img/';
       /*其他上传格式的地址*/  
       if (ActionType === 'uploadfile') {  
           file_url = '/file/ueditor/'; //附件  
@@ -43,17 +42,16 @@ function startServer() {
       if (ActionType === 'uploadvideo') {  
           file_url = '/uploads/ueditor/video/'; //视频  
       }  
-      res.ue_up(file_url); //你只要输入要保存的地址 。保存操作交给ueditor来做  
+      res.ue_up(file_url);
       res.setHeader('Content-Type', 'text/html');  
     }  
     //  客户端发起图片列表请求  
     else if (req.query.action === 'listimage') {  
       var dir_url = '/uploads/ueditor/img/';  
-      res.ue_list(dir_url); // 客户端会列出 dir_url 目录下的所有图片  
+      res.ue_list(dir_url);
     }  
     // 客户端发起其它请求  
     else {  
-      // console.log('config.json')  
       res.setHeader('Content-Type', 'application/json');  
       res.redirect('/ueditor/nodejs/config.json');  
     }  

@@ -2,6 +2,7 @@ const Categories = require('../models/Categories');
 const Advertsing = require('../models/Advertsing');
 const Details = require('../models/Details');
 const Cache = require('memory-cache').Cache;
+const nimble = require('nimble');
 
 let cache = new Cache();
 
@@ -13,13 +14,19 @@ exports.initData = function() {
 // 初始化标准的视图locals。
 exports.initLocals = function(req, res, next) {
 	Categories.find(function(err, docs) {
-		if(err) res.err(err, err.message);
+		if(err) {
+			res.err(err, err.message);
+			return;
+		}
 		docs.forEach(function(v) {
 			cache.put(v.name, v);
-		});
-		docs.forEach(function(v) {
 			cache.put(v._id, v.name);
-		})
+		});
+
+		res.locals.nav = docs.map(function(v) {
+			return {_id: v._id, name: v.name, keywords: v.keywords};
+		});
+		
 		res.locals.cache = cache;
 		res.locals.user = req.user;
 		next();

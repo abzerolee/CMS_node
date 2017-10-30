@@ -172,7 +172,7 @@ router.post(path_adver +'delAdver', function(req, res) {
 
 router.post(path_adver +'updateAdver', function(req, res) {
   let id = req.body.id;
-  let fields = extract(req.body, ['name', 'target', 'state', 'type', 'link', 'title', 'alt']);
+  let fields = extract(req.body, ['name', 'target', 'state', 'type', 'link', 'title', 'alt', 'applied']);
   let sImg = req.body.sImg;
   
   if(sImg.charAt(0) == '[' && sImg.charAt(sImg.length-1) == ']') {
@@ -194,7 +194,7 @@ router.post(path_adver +'updateAdver', function(req, res) {
 });
 
 router.post(path_adver +'addAdver', function(req, res) {
-  let fields = extract(req.body, ['name', 'target', 'state', 'type', 'link', 'title', 'alt']);
+  let fields = extract(req.body, ['name', 'target', 'state', 'type', 'link', 'title', 'alt', 'applied']);
   let sImg = req.body.sImg;
   if(sImg.charAt(0) == '[' && sImg.charAt(sImg.length-1) == ']') {
     sImg = JSON.parse(sImg);

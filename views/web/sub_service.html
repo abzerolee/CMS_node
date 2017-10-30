@@ -8,12 +8,10 @@
 
 {% block banner %} 
 <div class="banner ui-swipe banner-wrap">
-  {% if advers['2'] && advers['2'].sImg %}
-  {% for item in advers['2'].sImg %}
+  {% if advers['2'] %}
   <div class="ui-swiper-slide">
-    <a href="{{item.link}}"><img src="{{item.img}}" alt="{{advers['2'].alt}}"></a>
+    <a href="{{advers['2'].link}}"><img src="{{advers['2'].sImg}}" alt="{{advers['2'].alt}}"></a>
   </div>
-  {% endfor %}
   {% endif %}
 </div>
 {% endblock %}

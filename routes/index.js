@@ -2,10 +2,9 @@ const router = require('express').Router();
 const middleware = require('./middleware');
 const _ = require('nimble');
 
-const manger = require('./manger/home');
-const home = require('./web/home');
-const category = require('./web/category');
-const detail = require('./web/detail');
+const manger = require('./home_manger');
+const web = require('./home_web');
+const Routes = require('./Routes');
 
 const api = require('./api');
 
@@ -14,10 +13,11 @@ middleware.initData();
 router.use(middleware.initLocals);
 router.use(middleware.initErrorHandlers);
 
-router.get('/', home);
-router.get('/web', home);
-router.get('/web/:category', category);
-router.get('/web/:category/:subitem', detail);
+router.get('/', web);
+router.get('/web', web);
+router.get('/web/:category', Routes);
+router.get('/web/:category/:subitem', Routes);
+router.get('/web/:category/:subitem/:id', Routes)
 
 router.get('/manger', manger);
 router.get('/manger/categories', function(req, res) {
@@ -46,5 +46,6 @@ router.get('/manger/advertising_add', function(req, res) {
 });
 router.get('/manger/article_add', function(req, res) {
   res.render('manger/details_add');
-})
+});
+
 module.exports = router;

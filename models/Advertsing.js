@@ -15,7 +15,7 @@ const AdvertisingSchema = new Schema({
   sImg: Schema.Types.Mixed,
   alt: String,
   adverId: Number,
-  applied: {type: String, default: 'public'}, // 应用于哪个路由 与 Category.name对应
+  applied: {type: Schema.Types.ObjectId, default: null, ref: 'Categories'}, // 应用于哪个路由 与 Categories._id
   
 }, {timestamps: true});
 
