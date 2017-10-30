@@ -143,7 +143,7 @@ Double.prototype = {
         self.err(err, err.title);
         return;
       }
-      if(sub.name === '__list' && subitems.length === 1) {
+      if(sub.name === ('__list_'+ self.category) && subitems.length === 1) {
         self.viewName = self.category;
         self.findArticles(cb, sub);
         return;
