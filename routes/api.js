@@ -63,6 +63,10 @@ router.post(path_cate +'updateCategory', function(req, res) {
     fields.path = path +'/'+ fields.name;
   }
 
+  if(fields.name === '__list' && fields.pid) {
+    fields.name = '__list_'+ res.locals.cache.get(fields.pid);
+  }
+
   Categories.findByIdAndUpdate(id, fields, function(err, docs) {
     if(err) {
       res.json({code: 11, info: err.message});

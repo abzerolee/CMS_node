@@ -21,10 +21,14 @@ const funs = [createRootPath, createChildrenPath];
 CategoriesSchema.statics = {
   createPath: function(type, fields, res, cb) {
     let self = this;
+    let cache = res.locals.cache;
     Categories.find({name: fields.name}, {_id: 1, name: 1}, function(err, doc) {
       if(err) {
         res.json({code: 11, info: err.message})
         return;
+      }
+      if(fields.name === '__list' && fields.pid) {
+        fields.name = '__list_'+ cache.get(fields.pid);
       }
       if(doc.length !== 0) {
         cb.call(null, false, 'name repeats');
