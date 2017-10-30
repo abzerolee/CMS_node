@@ -52,18 +52,44 @@ $(function() {
     datas: function(d) {
       return {
         title: $('#title').val(),
-        tag: $('#tag').val(),
+        tags: $('#tag').val(),
         keywords: $('#keywords').val(),
         state: $('#state').val(),
         author: $("#author").val(),
         original: $('#original').val()
       };
     },
-    columns: ['', 'title', 'from', 'img', 'author', 'createdAt', 'keywords', 'tag', 'state', '_id'],
+    columns: ['', 'title', 'from', 'img', 'author', 'createdAt', 'keywords', 'tags', 'state', '_id'],
     defaults: {
       '0': '<input type="checkbox" class="check">',
     },
     callbacks: {
+      '2': function(data) {
+        return data.keywords;
+      },
+      '3': function(data) {
+        if(data) {
+          return '<img width="200" style="max-height:150px;" src="'+ data +'" />';
+        }
+      },
+      '6': function(data) {
+        if(data instanceof Array) {
+          return $.map(data, function(v) {
+            return '<label class="label label-primary radius">'+v+'</label>';
+          }).join(' ');
+        }
+      },
+      '7': function(data) {
+        if(data instanceof Array) {
+          return $.map(data, function(v) {
+            return '<label class="label label-warning radius">'+v+'</label>';
+          }).join(' ');
+        }
+      },
+      '8': function(data) {
+        return data ? '<label class="label label-success radius">发布中</label>' 
+          : '<label class="label label-danger radius">关闭</label>' 
+      },
       '9': function(data, type, row) {
         const ops = [];
         ops.push('<a class="option_edit" href="javascript:;">修改</a>');

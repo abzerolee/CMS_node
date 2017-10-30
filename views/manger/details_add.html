@@ -24,7 +24,6 @@
         <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>归属分类：</label>
         <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
           <select name="from" class="select" id="from">
-            <option value="service">service</option>
           </select>
           </span>
         </div>
@@ -32,7 +31,7 @@
       <div class="row cl">
         <label class="form-label col-xs-4 col-sm-2">文章标签：</label>
         <div class="formControls col-xs-8 col-sm-9">
-          <input type="text" class="input-text" id="tag" name="tag" placeholder="多个请用英文,号隔开">
+          <input type="text" class="input-text" id="tags" name="tags" placeholder="多个请用英文,号隔开">
         </div>
       </div>
       <div class="row cl">
@@ -70,7 +69,7 @@
       <div class="row cl">
         <label class="form-label col-xs-4 col-sm-2">图片标题：</label>
         <div class="formControls col-xs-8 col-sm-9">
-          <input type="hidden" value="" id="image"/>
+          <input type="hidden" value="" id="image" name="img"/>
           <div id="thelist" class="cl">
           </div>
           <div class="btns">
@@ -81,14 +80,14 @@
       <div class="row cl">
         <label class="form-label col-xs-4 col-sm-2">简介：</label>
         <div class="formControls col-xs-8 col-sm-9">
-          <textarea name="description" id="description" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" datatype="*10-100" dragonfly="true" nullmsg="不能为空！" onKeyUp="limitLength(this,80)"></textarea>
-          <p class="textarea-numberbar"><em class="textarea-length">0</em>/80</p>
+          <textarea name="description" id="description" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" datatype="*10-100" dragonfly="true" nullmsg="不能为空！" onKeyUp="limitLength(this,200)"></textarea>
+          <p class="textarea-numberbar"><em class="textarea-length">0</em>/200</p>
         </div>
       </div>
       <div class="row cl">
         <label class="form-label col-xs-4 col-sm-2">文章内容：</label>
         <div class="formControls col-xs-8 col-sm-9">
-          <script id="container" type="text/plain" name="content">
+          <script id="container" type="text/plain" name="content" style="height:500px;">
           </script>
         </div>
       </div>
@@ -105,23 +104,101 @@
   <script type="text/javascript" src="/ueditor/ueditor.config.js"></script>
   <script type="text/javascript" src="/ueditor/ueditor.all.min.js"></script>
   <script type="text/javascript" src="/ueditor/lang/zh-cn/zh-cn.js"></script>
+  <script type="text/javascript" src="/lib/manger/upload.js"></script>
   <script type="text/javascript">
-    function bindEvent() {
+    function bindEvent(ue) {
       $('#submit').on('click', function(e) {
         e.preventDefault();
+        let data = getFormValue('#opForm');
+        data.content = ue.getContent();
         
+        if(!data.title) {
+          layer.msg('请输入文章标题');
+          return 
+        }
+        if(!data.content) {
+          layer.msg('请输入文章内容');
+          return 
+        }
+        if(!data.description) {
+          layer.msg('请输入文章简介');
+          return 
+        }
+        let reg = /^([\u0391-\uFFE5\d\w,])*([\u0391-\uFFE5\d\w]+)$/;
+        if(!reg.test(data.tags) || !reg.test(data.keywords)) {
+          layer.msg('请用英文,号隔开');
+          return;
+        }
+
+        if(id) {
+          data.id = id
+          oajax('/article/updateArticle', 'post', data, function(data) {
+            layer.alert('修改成功', pop.close);
+          });
+        }else {
+          oajax('/article/addArticle', 'post', data, function(data) {
+            layer.alert('新建文章成功', pop.close);
+          })
+        }
       });
     }
 
-    function initPage() {
-      var ue = UE.getEditor('container');
+    function initPage(ue) {
+      oajax('/categories/getCategory', 'get', {}, function(data) {
+        $.each($.map(data.info, function(v) {
+          let name = v.name;
+          return {name: v.name, id: v._id, pid: v.pid};
+        }), function(i, v) {
+          $('#from')[0].innerHTML += v.pid 
+            ? '<option value="'+ v.id +'">|- '+ v.name +'</option>'
+            : '<option value="'+ v.id +'">'+ v.name +'</option>'
+        });
+
+        if(id)
+          setArticle(ue);
+      });
+    }
+
+    function setArticle(ue) {
+      oajax('/article/getArticles', 'get', {_id: id}, function(data) {
+        data = data.info[0];
+        data.tags = data.tags && data.tags.join(',');
+        data.keywords = data.keywords && data.keywords.join(',');
+        data.state = String(data.state);
+        data.original = String(data.original);
+        data.from = data.from && data.from._id;
+        setFormValue('#opForm', data);
+        if(data.img) {
+          $.initSingleIMG(data.img);
+        }
+        ue.ready(function() {
+          ue.setContent(data.content);
+        });
+      });
     }
 
     $(function() {
       window.id = getQueryString('id');
-      initPage();
-      bindEvent();
+      var ue = UE.getEditor('container');
+      initPage(ue);
+      bindEvent(ue);
     });
   </script>
 </body>
 </html>
+
+<!-- 创翊软科的开发员工将采用先进的信息技术来开发出高效和可靠的定制化软件。我们将按照您的商业和行业要求提供量身定制服务。通过采用高效的开发流程和最新技术，我们将提供最佳性价比的解决方案。我们将在设计完成全部软件产品开发要求的基础上满足项目时间等要求。
+具有卓越的软件开发优势：基于创翊软件的开发经验，您不仅可以节省外包软件开发费用而且能够实现业绩增长由于创翊具有：有经验和良好组织的团队、多种复杂和应用广泛项目经验的借鉴、完善的软件开发步骤、低成本的软件开发服务以及全面的软件开发配套服务。我们的软件开发人员能够处理各类涉及知识产权、系统平台兼容及保密等要求；编码管理和文档管理，系统开发及防火墙设置等要求。
+
+具主要开发软件类型：
+B/S 软件 （Brower/Server）
+B/S软件，即Browser/Server(浏览器/服务器)结构的软件，是随着Internet技术的兴起，对C/S结构的一种变化或者改进的结构。在这种结构下的软件，用户界面完全通过WWW浏览器实现，一部分事务逻辑在前端实现但是主要事务逻辑在服务器端实现，形成所谓3-tier结构。B/S软件，主要是利用了不断成熟的WWW浏览器技术，结合浏览器的多种Script语言(VBScript、JavaScript…)和ActiveX技术，用通用浏览器就实现了原来需要复杂专用软件才能实现的强大功能，并节约了开发成本，是一种全新的软件系统构造技术。
+
+创翊特色：
+★ 按需所求、量身定制
+告诉我们您想要的软件，我们为您研发制作。只需提供新建系统的结构需求、功能需求，配合开发人员了解企业原有的业务流程，并讨论设计新业务流程。软件就能与企业当前的办公和业务系统无缝结合。创翊软件甚至可以组织项目实施领导小组，以确保新系统应用的成功。
+★ 操作简易、运用自如
+创翊研发的每一款软件都会保证全面的智能化和自动化。将繁琐的操作程序，优化到最简易，让操作者可以在短期内熟练掌握；可开发远程操作功能，通过手机、互联网等远程操作，达到全智能、随心应用。
+★ 售服完善、跟踪排障
+创翊软件售后服务极其完备，在程序编制结束后进行软件测试。交付使用时，对企业相关人员进行操作培训并提供软件正常运行后进行的常规维护和功能扩充开发。实行24小时跟踪服务，及时为您排除操作疑惑。 -->
+
